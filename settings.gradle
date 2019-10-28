@@ -1,0 +1,3 @@
+rootProject.name = 'case-management'
+
+include 'common', 'worker', 'api'

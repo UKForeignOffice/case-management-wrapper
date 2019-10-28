@@ -1,0 +1,31 @@
+
+spring:
+  jackson:
+    default-property-inclusion: non_absent
+    serialization:
+      write_dates_as_timestamps: false
+  resources:
+    add-mappings: false
+
+server:
+  port: 9000
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: ${ROOT_LOGGING_LEVEL:DEBUG}
+    com.amazonaws: INFO
+    org.apache: INFO
+    org.springframework: INFO
+
+message-queue:
+  endpoint: ${MESSAGE_QUEUE_ENDPOINT:http://localhost:9324}
+  queue-name: ${MESSAGE_QUEUE_NAME:default}
+  request-timeout: 30000
+  url: ${MESSAGE_QUEUE_URL:http://localhost:9324/queue/default}
+
+---
+
+spring:
+  profiles: production

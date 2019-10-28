@@ -1,0 +1,15 @@
+
+plugins {
+    id 'org.springframework.boot'
+}
+
+group = 'uk.gov.fco.casemanagement.worker'
+
+bootJar {
+    archiveName = 'case-management-worker.jar'
+    mainClassName = 'uk.gov.fco.casemanagement.worker.Application'
+}
+
+dependencies {
+    compile project(':common')
+}
