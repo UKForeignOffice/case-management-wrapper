@@ -19,9 +19,11 @@ subprojects {
     targetCompatibility = '1.8'
 
     dependencies {
+        annotationProcessor 'org.projectlombok:lombok:1.18.10'
+
+        compileOnly 'org.projectlombok:lombok:1.18.10'
         compile 'com.sun.xml.bind:jaxb-impl:2.3.2'
         compile 'javax.activation:activation:1.1.1'
-
         compile 'org.apache.commons:commons-lang3:3.8.1'
 
         testCompile 'org.mockito:mockito-core:2.23.4'

@@ -7,20 +7,18 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "message-queue")
 public class MessageQueueProperties {
 
-    private String url;
+    private String queueUrl;
 
     private String endpoint;
 
-    private String queueName;
-
     private int requestTimeout;
 
-    public String getUrl() {
-        return url;
+    public String getQueueUrl() {
+        return queueUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setQueueUrl(String queueUrl) {
+        this.queueUrl = queueUrl;
     }
 
     public String getEndpoint() {
@@ -29,14 +27,6 @@ public class MessageQueueProperties {
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
-    }
-
-    public String getQueueName() {
-        return queueName;
-    }
-
-    public void setQueueName(String queueName) {
-        this.queueName = queueName;
     }
 
     public int getRequestTimeout() {

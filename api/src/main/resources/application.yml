@@ -21,9 +21,8 @@ logging:
 
 message-queue:
   endpoint: ${MESSAGE_QUEUE_ENDPOINT:http://localhost:9324}
-  queue-name: ${MESSAGE_QUEUE_NAME:default}
+  queue-url: ${MESSAGE_QUEUE_URL:http://localhost:9324/queue/default}
   request-timeout: 30000
-  url: ${MESSAGE_QUEUE_URL:http://localhost:9324/queue/default}
 
 ---
 
