@@ -17,7 +17,7 @@ public class Applicant {
     private String title;
 
     // TODO: format
-    private Instant dateOfBirth;
+    private String dateOfBirth;
 
     private String email;
 
@@ -73,11 +73,11 @@ public class Applicant {
         this.title = title;
     }
 
-    public Instant getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Instant dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

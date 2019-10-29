@@ -4,23 +4,25 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSResponder;
 import com.amazonaws.services.sqs.MessageContent;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
+import com.amazonaws.services.sqs.model.DeleteMessageResult;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.fco.casemanagement.common.config.MessageQueueProperties;
+import uk.gov.fco.casemanagement.common.domain.Form;
+import uk.gov.fco.casemanagement.worker.service.casebook.CasebookService;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 @Component
+@Slf4j
 public class MessageReceiver {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class);
 
     private static final Integer WAIT_TIMOUT = 5;
 
@@ -32,20 +34,28 @@ public class MessageReceiver {
 
     private MessageQueueProperties properties;
 
+    private CasebookService casebookService;
+
+    private ObjectMapper objectMapper;
+
     @Autowired
-    public MessageReceiver(AmazonSQS amazonSQS, AmazonSQSResponder amazonSQSResponder, MessageQueueProperties properties) {
-        this.amazonSQS = checkNotNull(amazonSQS);
-        this.amazonSQSResponder = checkNotNull(amazonSQSResponder);
-        this.properties = checkNotNull(properties);
+    public MessageReceiver(@NonNull AmazonSQS amazonSQS, @NonNull AmazonSQSResponder amazonSQSResponder,
+                           @NonNull MessageQueueProperties properties, @NonNull CasebookService casebookService,
+                           @NonNull ObjectMapper objectMapper) {
+        this.amazonSQS = amazonSQS;
+        this.amazonSQSResponder = amazonSQSResponder;
+        this.properties = properties;
+        this.casebookService = casebookService;
+        this.objectMapper = objectMapper;
     }
 
     @PostConstruct
     public void listen() {
         while (true) {
-            LOGGER.debug("Receiving messages");
+            log.debug("Receiving messages");
 
             List<Message> messages = amazonSQS.receiveMessage(new ReceiveMessageRequest()
-                    .withQueueUrl(properties.getUrl())
+                    .withQueueUrl(properties.getQueueUrl())
                     .withMaxNumberOfMessages(MAX_MESSAGES)
                     .withWaitTimeSeconds(WAIT_TIMOUT))
                     .getMessages();
@@ -55,19 +65,30 @@ public class MessageReceiver {
     }
 
     private void processMessage(Message message) {
-        LOGGER.debug("Processing message {}", message);
+        log.debug("Processing message {}", message);
 
-        // Missing ResponseQueueUrl?
+        Form form;
+        try {
+            form = objectMapper.readValue(message.getBody(), Form.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String reference = casebookService.createCase(form);
+
+        // FIXME: Missing ResponseQueueUrl?
 
         MessageContent requestMessage = MessageContent.fromMessage(message);
 
         if (amazonSQSResponder.isResponseMessageRequested(requestMessage)) {
-            LOGGER.debug("Responding with {}", message.getBody());
-            amazonSQSResponder.sendResponseMessage(requestMessage, new MessageContent(message.getBody()));
+            log.debug("Responding with {}", reference);
+            amazonSQSResponder.sendResponseMessage(requestMessage, new MessageContent(reference));
         }
 
-        amazonSQS.deleteMessage(new DeleteMessageRequest()
-                .withQueueUrl(properties.getUrl())
+        DeleteMessageResult result = amazonSQS.deleteMessage(new DeleteMessageRequest()
+                .withQueueUrl(properties.getQueueUrl())
                 .withReceiptHandle(message.getReceiptHandle()));
+
+        log.debug("Delete message result {}", result);
     }
 }

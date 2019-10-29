@@ -1,7 +1,6 @@
 package uk.gov.fco.casemanagement.api.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,50 +10,49 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 import uk.gov.fco.casemanagement.api.service.MessageQueueService;
 import uk.gov.fco.casemanagement.api.service.MessageQueueTimeoutException;
+import uk.gov.fco.casemanagement.common.domain.Form;
 
-import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
 
 import static org.glassfish.jersey.internal.guava.Preconditions.checkNotNull;
 
 @RestController
-@RequestMapping("cases")
-public class CaseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CaseController.class);
+@RequestMapping("applications")
+@Slf4j
+public class ApplicationController {
 
     private static final Long REQUEST_TIMEOUT = 30000L;
 
     private MessageQueueService messageQueueService;
 
     @Autowired
-    public CaseController(MessageQueueService messageQueueService) {
+    public ApplicationController(MessageQueueService messageQueueService) {
         this.messageQueueService = checkNotNull(messageQueueService);
     }
 
     @PostMapping
-    public DeferredResult<ResponseEntity<?>> createCase(@RequestBody Map<?, ?> id) {
-        LOGGER.debug("Creating case");
+    public DeferredResult<ResponseEntity<?>> submitForm(@RequestBody Form form) {
+        log.debug("Submitting application form {}", form);
 
         DeferredResult<ResponseEntity<?>> output = new DeferredResult<>(REQUEST_TIMEOUT);
 
         output.onTimeout(() -> {
-            LOGGER.warn("Timeout waiting for response");
+            log.warn("Timeout waiting for response");
             output.setResult(ResponseEntity.accepted().build());
         });
 
         ForkJoinPool.commonPool().submit(() -> {
-            LOGGER.trace("Processing create case in separate thread");
+            log.trace("Processing create case in separate thread");
             try {
-                String response = messageQueueService.send("12345");
+                String response = messageQueueService.send(form);
                 output.setResult(ResponseEntity.ok(response));
             } catch (MessageQueueTimeoutException e) {
-                LOGGER.warn("Message queue timeout waiting for response", e);
+                log.warn("Message queue timeout waiting for response", e);
                 output.setResult(ResponseEntity.accepted().build());
             }
         });
 
-        LOGGER.trace("Returning deferred result");
+        log.trace("Returning deferred result");
         return output;
     }
 }
