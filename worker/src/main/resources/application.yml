@@ -22,6 +22,7 @@ logging:
 message-queue:
   endpoint: ${MESSAGE_QUEUE_ENDPOINT:http://localhost:9324}
   queue-url: ${MESSAGE_QUEUE_URL:http://localhost:9324/queue/default}
+  internal-queue-prefix: ${INTERNAL_QUEUE_PREFIX:casemanagment-requester}
   request-timeout: 30000
 
 ---

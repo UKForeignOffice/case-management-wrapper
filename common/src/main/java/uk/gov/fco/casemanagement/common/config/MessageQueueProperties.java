@@ -11,6 +11,8 @@ public class MessageQueueProperties {
 
     private String endpoint;
 
+    private String internalQueuePrefix;
+
     private int requestTimeout;
 
     public String getQueueUrl() {
@@ -27,6 +29,14 @@ public class MessageQueueProperties {
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public String getInternalQueuePrefix() {
+        return internalQueuePrefix;
+    }
+
+    public void setInternalQueuePrefix(String internalQueuePrefix) {
+        this.internalQueuePrefix = internalQueuePrefix;
     }
 
     public int getRequestTimeout() {

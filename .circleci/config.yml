@@ -129,7 +129,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            TAG=`cat learning-service/tag.txt`
+            TAG=`cat api/tag.txt`
             echo "Someday I'll deploy version ${TAG}"
 
       - slack/status
