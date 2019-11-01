@@ -5,6 +5,9 @@ defaults: &defaults
   docker:
     - image: circleci/openjdk:8-jdk
 
+orbs:
+  slack: circleci/slack@0.1.0
+
 jobs:
   test:
     <<: *defaults
@@ -24,17 +27,18 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run: ./gradlew build
-
-      - store_test_results:
-          path: build/test-results
+      - run: ./gradlew build -xtest
 
       - persist_to_workspace:
           root: .
           paths:
-            - build
+            - api/build
+            - worker/build
 
-  publish:
+      - slack/status:
+          fail_only: "true"
+
+  publish-api:
     <<: *defaults
 
     docker:
@@ -46,7 +50,8 @@ jobs:
       - attach_workspace:
           at: .
 
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Checkout CI Support
@@ -58,17 +63,94 @@ jobs:
 
       - run:
           name: Publish docker image
-          command: ci-support/docker/publish.sh fco case-management-api
+          command: cd api && ../ci-support/docker/publish.sh fco casemanagement-api
 
       - persist_to_workspace:
           root: .
           paths:
-            - tag.txt
+            - api/tag.txt
+
+      - slack/status:
+          fail_only: "true"
+
+  publish-worker:
+    <<: *defaults
+
+    docker:
+      - image: circleci/python:2.7-jessie
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Checkout CI Support
+          command: git clone git@github.com:CautionYourBlast/ci-support.git
+
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+
+      - run:
+          name: Publish docker image
+          command: cd worker && ../ci-support/docker/publish.sh fco casemanagement-worker
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - worker/tag.txt
+
+      - slack/status:
+          fail_only: "true"
+
+  deploy:
+    <<: *defaults
+
+    docker:
+      - image: circleci/python:2.7-jessie
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Checkout CI Support
+          command: git clone git@github.com:CautionYourBlast/ci-support.git
+
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+
+      - run:
+          name: Deploy
+          command: |
+            TAG=`cat learning-service/tag.txt`
+            echo "Someday I'll deploy version ${TAG}"
+
+      - slack/status
 
 workflows:
   "Test, publish and deploy":
     jobs:
       - test
-      - publish:
+      - publish-api:
           requires:
             - test
+      - publish-worker:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - publish-api
+            - publish-worker
+          filters:
+            branches:
+              only:
+                - master
