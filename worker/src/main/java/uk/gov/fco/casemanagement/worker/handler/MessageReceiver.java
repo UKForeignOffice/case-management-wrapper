@@ -52,7 +52,7 @@ public class MessageReceiver {
     @PostConstruct
     public void listen() {
         while (true) {
-            log.debug("Receiving messages");
+            log.trace("Receiving messages");
 
             List<Message> messages = amazonSQS.receiveMessage(new ReceiveMessageRequest()
                     .withQueueUrl(properties.getQueueUrl())
@@ -71,7 +71,7 @@ public class MessageReceiver {
         try {
             form = objectMapper.readValue(message.getBody(), Form.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); // TODO: Throw something else
         }
 
         String reference = casebookService.createCase(form);

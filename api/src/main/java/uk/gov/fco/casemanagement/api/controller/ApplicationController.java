@@ -1,5 +1,7 @@
 package uk.gov.fco.casemanagement.api.controller;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.media.Content;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import uk.gov.fco.casemanagement.api.service.MessageQueueService;
 import uk.gov.fco.casemanagement.api.service.MessageQueueTimeoutException;
 import uk.gov.fco.casemanagement.common.domain.Form;
 
+import javax.ws.rs.core.MediaType;
 import java.util.concurrent.ForkJoinPool;
 
 import static org.glassfish.jersey.internal.guava.Preconditions.checkNotNull;
@@ -19,6 +22,7 @@ import static org.glassfish.jersey.internal.guava.Preconditions.checkNotNull;
 @RestController
 @RequestMapping("applications")
 @Slf4j
+@OpenAPIDefinition()
 public class ApplicationController {
 
     private static final Long REQUEST_TIMEOUT = 30000L;
@@ -31,6 +35,12 @@ public class ApplicationController {
     }
 
     @PostMapping
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            required = true,
+            content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON)
+            }
+    )
     public DeferredResult<ResponseEntity<?>> submitForm(@RequestBody Form form) {
         log.debug("Submitting application form {}", form);
 
