@@ -27,7 +27,7 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run: ./gradlew build -xtest
+      - run: ./gradlew build
 
       - persist_to_workspace:
           root: .
