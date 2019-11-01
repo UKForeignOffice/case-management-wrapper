@@ -16,7 +16,7 @@ logging:
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
-    root: ${ROOT_LOGGING_LEVEL:DEBUG}
+    root: ${ROOT_LOGGING_LEVEL:INFO}
     com.amazonaws: INFO
     org.apache.http: INFO
     org.springframework: INFO
