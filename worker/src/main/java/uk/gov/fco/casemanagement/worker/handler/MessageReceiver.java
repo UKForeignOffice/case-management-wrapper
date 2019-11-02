@@ -76,8 +76,6 @@ public class MessageReceiver {
         String reference = casebookService.createCase(form);
         log.debug("Case created, reference = {}", reference);
 
-        // FIXME: Missing ResponseQueueUrl?
-
         MessageContent requestMessage = MessageContent.fromMessage(message);
 
         if (amazonSQSResponder.isResponseMessageRequested(requestMessage)) {

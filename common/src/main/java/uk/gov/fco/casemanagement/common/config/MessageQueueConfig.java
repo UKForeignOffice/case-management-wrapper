@@ -31,7 +31,7 @@ public class MessageQueueConfig {
     @Bean
     public AmazonSQS amazonSQSTemporaryQueuesClient() {
         return AmazonSQSTemporaryQueuesClientBuilder.standard()
-//                .withAmazonSQS(amazonSQS())
+                .withAmazonSQS(amazonSQS())
                 .withQueuePrefix(properties.getInternalQueuePrefix())
                 .build();
     }

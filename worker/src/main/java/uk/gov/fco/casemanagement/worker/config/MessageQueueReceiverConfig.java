@@ -26,7 +26,7 @@ public class MessageQueueReceiverConfig {
     @Bean
     public AmazonSQSResponder amazonSQSResponder() {
         return AmazonSQSResponderClientBuilder.standard()
-//                .withAmazonSQS(amazonSQS)
+                .withAmazonSQS(amazonSQS)
                 .withInternalQueuePrefix(properties.getInternalQueuePrefix())
                 .build();
     }
