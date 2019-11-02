@@ -1,5 +1,6 @@
 package uk.gov.fco.casemanagement.worker.config;
 
+import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSResponder;
 import com.amazonaws.services.sqs.AmazonSQSResponderClientBuilder;
@@ -12,20 +13,20 @@ import uk.gov.fco.casemanagement.common.config.MessageQueueProperties;
 @Configuration
 public class MessageQueueReceiverConfig {
 
-    private AmazonSQSAsync amazonSQSAsync;
+    private AmazonSQS amazonSQS;
 
     private MessageQueueProperties properties;
 
     @Autowired
-    public MessageQueueReceiverConfig(@NonNull AmazonSQSAsync amazonSQSAsync, @NonNull MessageQueueProperties properties) {
-        this.amazonSQSAsync = amazonSQSAsync;
+    public MessageQueueReceiverConfig(@NonNull AmazonSQS amazonSQS, @NonNull MessageQueueProperties properties) {
+        this.amazonSQS = amazonSQS;
         this.properties = properties;
     }
 
     @Bean
     public AmazonSQSResponder amazonSQSResponder() {
         return AmazonSQSResponderClientBuilder.standard()
-                .withAmazonSQS(amazonSQSAsync)
+//                .withAmazonSQS(amazonSQS)
                 .withInternalQueuePrefix(properties.getInternalQueuePrefix())
                 .build();
     }

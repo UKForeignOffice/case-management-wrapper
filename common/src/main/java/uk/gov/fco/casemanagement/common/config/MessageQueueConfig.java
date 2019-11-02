@@ -1,8 +1,9 @@
 package uk.gov.fco.casemanagement.common.config;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.sqs.AmazonSQSAsync;
-import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
+import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.AmazonSQSTemporaryQueuesClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -21,10 +22,17 @@ public class MessageQueueConfig {
         this.properties = checkNotNull(properties);
     }
 
-    @Bean
-    public AmazonSQSAsync amazonSQSAsync() {
-        return AmazonSQSAsyncClientBuilder.standard()
+    private AmazonSQS amazonSQS() {
+        return AmazonSQSClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(properties.getEndpoint(), null))
+                .build();
+    }
+
+    @Bean
+    public AmazonSQS amazonSQSTemporaryQueuesClient() {
+        return AmazonSQSTemporaryQueuesClientBuilder.standard()
+//                .withAmazonSQS(amazonSQS())
+                .withQueuePrefix(properties.getInternalQueuePrefix())
                 .build();
     }
 }

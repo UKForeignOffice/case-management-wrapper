@@ -3,10 +3,7 @@ package uk.gov.fco.casemanagement.worker.handler;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSResponder;
 import com.amazonaws.services.sqs.MessageContent;
-import com.amazonaws.services.sqs.model.DeleteMessageRequest;
-import com.amazonaws.services.sqs.model.DeleteMessageResult;
-import com.amazonaws.services.sqs.model.Message;
-import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+import com.amazonaws.services.sqs.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +52,8 @@ public class MessageReceiver {
             log.trace("Receiving messages");
 
             List<Message> messages = amazonSQS.receiveMessage(new ReceiveMessageRequest()
+                    .withMessageAttributeNames("ResponseQueueUrl")
+                    .withAttributeNames(QueueAttributeName.All)
                     .withQueueUrl(properties.getQueueUrl())
                     .withMaxNumberOfMessages(MAX_MESSAGES)
                     .withWaitTimeSeconds(WAIT_TIMOUT))
@@ -75,6 +74,7 @@ public class MessageReceiver {
         }
 
         String reference = casebookService.createCase(form);
+        log.debug("Case created, reference = {}", reference);
 
         // FIXME: Missing ResponseQueueUrl?
 

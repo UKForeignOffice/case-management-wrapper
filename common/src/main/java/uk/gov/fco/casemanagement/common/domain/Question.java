@@ -1,6 +1,7 @@
 package uk.gov.fco.casemanagement.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Question {
     private List<Field> fields = new ArrayList<>();
 
     @JsonCreator
-    public Question(String id) {
+    public Question(@JsonProperty("id") String id) {
         this.id = checkNotNull(id);
     }
 

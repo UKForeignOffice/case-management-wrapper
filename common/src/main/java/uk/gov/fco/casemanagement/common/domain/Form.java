@@ -2,6 +2,7 @@ package uk.gov.fco.casemanagement.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
 import lombok.ToString;
 
@@ -24,7 +25,7 @@ public class Form {
     private List<Question> questions;
 
     @JsonCreator
-    public Form(@NonNull List<Question> questions) {
+    public Form(@JsonProperty("questions") @NonNull List<Question> questions) {
         this.questions = questions;
     }
 

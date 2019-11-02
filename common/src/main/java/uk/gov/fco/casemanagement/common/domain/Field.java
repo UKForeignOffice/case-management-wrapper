@@ -1,6 +1,7 @@
 package uk.gov.fco.casemanagement.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -15,7 +16,8 @@ public class Field {
     private String answer;
 
     @JsonCreator
-    public Field(String property, String type, LocalisedString name) {
+    public Field(@JsonProperty("property") String property, @JsonProperty("type") String type,
+                 @JsonProperty("name") LocalisedString name) {
         this.property = checkNotNull(property);
         this.type = checkNotNull(type);
         this.name = checkNotNull(name);

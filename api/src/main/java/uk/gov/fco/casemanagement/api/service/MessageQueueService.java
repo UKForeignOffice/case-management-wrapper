@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service;
 import uk.gov.fco.casemanagement.common.config.MessageQueueProperties;
 import uk.gov.fco.casemanagement.common.domain.Form;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import static org.glassfish.jersey.internal.guava.Preconditions.checkNotNull;
 
 /**
  * This service wraps up all message queue communication.
@@ -49,8 +48,10 @@ public class MessageQueueService {
         }
 
         SendMessageRequest request = new SendMessageRequest()
-                .withMessageBody(messageBody)
-                .withQueueUrl(properties.getQueueUrl());
+                .withMessageDeduplicationId(UUID.randomUUID().toString())
+                .withMessageGroupId(UUID.randomUUID().toString())
+                .withQueueUrl(properties.getQueueUrl())
+                .withMessageBody(messageBody);
 
         try {
             Message response = amazonSQSRequester.sendMessageAndGetResponse(request, properties.getRequestTimeout(),
