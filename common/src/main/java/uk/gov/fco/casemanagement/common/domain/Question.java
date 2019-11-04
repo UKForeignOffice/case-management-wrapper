@@ -7,7 +7,6 @@ import lombok.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.unmodifiableList;
 
 public class Question {
@@ -21,8 +20,8 @@ public class Question {
     private List<Field> fields = new ArrayList<>();
 
     @JsonCreator
-    public Question(@JsonProperty("id") String id) {
-        this.id = checkNotNull(id);
+    public Question(@JsonProperty("id") @NonNull String id) {
+        this.id = id;
     }
 
     public String getId() {

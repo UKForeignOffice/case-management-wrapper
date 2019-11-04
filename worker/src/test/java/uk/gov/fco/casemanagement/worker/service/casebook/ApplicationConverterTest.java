@@ -1,6 +1,5 @@
 package uk.gov.fco.casemanagement.worker.service.casebook;
 
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
@@ -9,11 +8,8 @@ import org.mockito.Mock;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
-import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadServiceTest;
 
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;

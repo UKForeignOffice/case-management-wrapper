@@ -20,13 +20,13 @@ public class Form {
 
     private String name;
 
-    private List<Fee> fees = new ArrayList<>();
+    private List<Fees> fees = new ArrayList<>();
 
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
 
     @JsonCreator
     public Form(@JsonProperty("questions") @NonNull List<Question> questions) {
-        this.questions = questions;
+        this.questions.addAll(questions);
     }
 
     public String getId() {
@@ -37,11 +37,11 @@ public class Form {
         return name;
     }
 
-    public List<Fee> getFees() {
+    public List<Fees> getFees() {
         return unmodifiableList(fees);
     }
 
-    public void setFees(List<Fee> fees) {
+    public void setFees(List<Fees> fees) {
         this.fees.clear();
         if (fees != null) {
             this.fees.addAll(fees);
@@ -57,7 +57,7 @@ public class Form {
         Map<String, String> answers = new HashMap<>();
         questions.forEach(question -> {
             question.getFields().forEach(field -> {
-                answers.put(field.getProperty(), field.getAnswer());
+                answers.put(field.getId(), field.getAnswer());
             });
         });
         return answers;

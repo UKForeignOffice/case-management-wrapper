@@ -18,12 +18,12 @@ class QuestionBuilder {
         return this;
     }
 
-    QuestionBuilder withField(String name, String property, String answer) {
-        return withField(name, property, "text", answer);
+    QuestionBuilder withField(String title, String id, String answer) {
+        return withField(title, id, "text", answer);
     }
 
-    QuestionBuilder withField(String name, String property, String type, String answer) {
-        Field field = new Field(property, type, name);
+    QuestionBuilder withField(String title, String id, String type, String answer) {
+        Field field = new Field(id, type, title);
         field.setAnswer(answer);
         fields.add(field);
         return this;

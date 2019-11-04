@@ -16,6 +16,8 @@ import java.net.URL;
 import java.time.Instant;
 import java.util.Map;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 @Slf4j
 public class ApplicationConverter implements Converter<Form, NotarialApplication> {
 
@@ -39,7 +41,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
             source.getQuestions().stream()
                     .filter(question -> question.getFields().stream()
-                            .anyMatch(field -> properties.containsKey(field.getProperty())))
+                            .anyMatch(field -> properties.containsKey(field.getId())))
                     .forEach(question -> {
                         StringBuilder answers = new StringBuilder();
                         question.getFields().forEach(field -> {
@@ -61,8 +63,8 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                                 } catch (MalformedURLException e) {
                                     log.warn("Invalid file URL provided in form data", e);
                                 }
-                            } else if (properties.containsKey(field.getProperty())) {
-                                answers.append(field.getName())
+                            } else if (properties.containsKey(field.getId())) {
+                                answers.append(field.getTitle())
                                         .append(": ")
                                         .append(field.getAnswer())
                                         .append("\n");
@@ -134,11 +136,20 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
     }
 
     private void setAndRemoveValue(Map<String, String> properties, SetterFunction setter, String... keys) {
+        StringBuilder value = new StringBuilder();
         for (String key : keys) {
             if (properties.containsKey(key)) {
-                setter.call(properties.remove(key));
-                break;
+                String answer = properties.remove(key);
+                if (isNotBlank(answer)) {
+                    if (value.length() > 0) {
+                        value.append(" ");
+                    }
+                    value.append(answer);
+                }
             }
+        }
+        if (value.length() > 0) {
+            setter.call(value.toString());
         }
     }
 
