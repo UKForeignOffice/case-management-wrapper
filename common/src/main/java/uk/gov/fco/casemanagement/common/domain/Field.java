@@ -11,13 +11,13 @@ public class Field {
 
     private String type;
 
-    private LocalisedString name;
+    private String name;
 
     private String answer;
 
     @JsonCreator
     public Field(@JsonProperty("property") String property, @JsonProperty("type") String type,
-                 @JsonProperty("name") LocalisedString name) {
+                 @JsonProperty("name") String name) {
         this.property = checkNotNull(property);
         this.type = checkNotNull(type);
         this.name = checkNotNull(name);
@@ -35,7 +35,7 @@ public class Field {
         return type;
     }
 
-    public LocalisedString getName() {
+    public String getName() {
         return name;
     }
 

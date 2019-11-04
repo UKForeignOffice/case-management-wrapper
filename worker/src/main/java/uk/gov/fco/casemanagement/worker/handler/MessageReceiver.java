@@ -49,18 +49,21 @@ public class MessageReceiver {
     @PostConstruct
     public void listen() {
         while (true) {
-            log.trace("Receiving messages");
-
-            List<Message> messages = amazonSQS.receiveMessage(new ReceiveMessageRequest()
-                    .withMessageAttributeNames("ResponseQueueUrl")
-                    .withAttributeNames(QueueAttributeName.All)
-                    .withQueueUrl(properties.getQueueUrl())
-                    .withMaxNumberOfMessages(MAX_MESSAGES)
-                    .withWaitTimeSeconds(WAIT_TIMOUT))
-                    .getMessages();
-
-            messages.forEach(this::processMessage);
+            receiveMessage();
         }
+    }
+
+    void receiveMessage() {
+        log.trace("Polling for new message");
+        List<Message> messages = amazonSQS.receiveMessage(new ReceiveMessageRequest()
+                .withMessageAttributeNames("ResponseQueueUrl")
+                .withAttributeNames(QueueAttributeName.All)
+                .withQueueUrl(properties.getQueueUrl())
+                .withMaxNumberOfMessages(MAX_MESSAGES)
+                .withWaitTimeSeconds(WAIT_TIMOUT))
+                .getMessages();
+
+        messages.forEach(this::processMessage);
     }
 
     private void processMessage(Message message) {
@@ -72,6 +75,8 @@ public class MessageReceiver {
         } catch (IOException e) {
             throw new RuntimeException(e); // TODO: Throw something else
         }
+
+        // TODO: send along timestamp from message
 
         String reference = casebookService.createCase(form);
         log.debug("Case created, reference = {}", reference);

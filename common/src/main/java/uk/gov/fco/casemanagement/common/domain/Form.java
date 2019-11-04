@@ -18,7 +18,7 @@ public class Form {
 
     private String id;
 
-    private LocalisedString name;
+    private String name;
 
     private List<Fee> fees = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class Form {
         return id;
     }
 
-    public LocalisedString getName() {
+    public String getName() {
         return name;
     }
 

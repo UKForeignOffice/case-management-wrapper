@@ -2,6 +2,7 @@ package uk.gov.fco.casemanagement.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,9 @@ public class Question {
 
     private String id;
 
-    private LocalisedString category;
+    private String category;
 
-    private LocalisedString question;
+    private String question;
 
     private List<Field> fields = new ArrayList<>();
 
@@ -28,19 +29,19 @@ public class Question {
         return id;
     }
 
-    public LocalisedString getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(LocalisedString category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public LocalisedString getQuestion() {
+    public String getQuestion() {
         return question;
     }
 
-    public void setQuestion(LocalisedString question) {
+    public void setQuestion(String question) {
         this.question = question;
     }
 
@@ -53,5 +54,9 @@ public class Question {
         if (fields != null) {
             this.fields.addAll(fields);
         }
+    }
+
+    public void addField(@NonNull Field field) {
+        this.fields.add(field);
     }
 }

@@ -1,5 +1,7 @@
 package uk.gov.fco.casemanagement.worker.service.casebook.domain;
 
+import lombok.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,5 +85,9 @@ public class Application {
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public void addAttachment(@NonNull Attachment attachment) {
+        this.attachments.add(attachment);
     }
 }

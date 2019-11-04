@@ -1,7 +1,12 @@
 package uk.gov.fco.casemanagement.api.controller;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+import uk.gov.fco.casemanagement.api.domain.FormSubmissionResult;
 import uk.gov.fco.casemanagement.api.service.MessageQueueService;
 import uk.gov.fco.casemanagement.api.service.MessageQueueTimeoutException;
 import uk.gov.fco.casemanagement.common.domain.Form;
 
-import javax.ws.rs.core.MediaType;
 import java.util.concurrent.ForkJoinPool;
 
 import static org.glassfish.jersey.internal.guava.Preconditions.checkNotNull;
@@ -35,13 +40,32 @@ public class ApplicationController {
     }
 
     @PostMapping
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            required = true,
-            content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON)
-            }
+    @ApiResponses({
+            @ApiResponse(
+                    description = "New case created from form data.",
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(
+                                    type = "object",
+                                    implementation = FormSubmissionResult.class))),
+            @ApiResponse(
+                    description = "Form data has been accepted but case creation is delayed. No need to resubmit.",
+                    responseCode = "202")
+    })
+    @Operation(
+            summary = "Submit form",
+            description = "Returns the new case reference."
     )
-    public DeferredResult<ResponseEntity<?>> submitForm(@RequestBody Form form) {
+    public DeferredResult<ResponseEntity<?>> submitForm(
+            @Parameter(
+                    name = "form",
+                    description = "The form to submit",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(type = "object")
+                    )
+            ) @RequestBody Form form) {
         log.debug("Submitting application form {}", form);
 
         DeferredResult<ResponseEntity<?>> output = new DeferredResult<>(REQUEST_TIMEOUT);

@@ -32,7 +32,8 @@ public class MessageQueueService {
 
     @Autowired
     public MessageQueueService(@NonNull AmazonSQSRequester amazonSQSRequester,
-                               @NonNull MessageQueueProperties properties, @NonNull ObjectMapper objectMapper) {
+                               @NonNull MessageQueueProperties properties,
+                               @NonNull ObjectMapper objectMapper) {
         this.amazonSQSRequester = amazonSQSRequester;
         this.properties = properties;
         this.objectMapper = objectMapper;

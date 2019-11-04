@@ -4,11 +4,11 @@ public class Attachment {
 
     private String fileName;
 
-    private byte[] fileData;
+    private String fileData;
 
     private String fileExtension;
 
-    public Attachment(String fileName, byte[] fileData, String fileExtension) {
+    public Attachment(String fileName, String fileData, String fileExtension) {
         this.fileName = fileName;
         this.fileData = fileData;
         this.fileExtension = fileExtension;
@@ -18,7 +18,7 @@ public class Attachment {
         return fileName;
     }
 
-    public byte[] getFileData() {
+    public String getFileData() {
         return fileData;
     }
 

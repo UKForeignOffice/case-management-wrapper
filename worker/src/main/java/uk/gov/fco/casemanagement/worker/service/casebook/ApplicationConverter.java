@@ -1,15 +1,29 @@
 package uk.gov.fco.casemanagement.worker.service.casebook;
 
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.Address;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.Applicant;
+import uk.gov.fco.casemanagement.worker.service.casebook.domain.Attachment;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.NotarialApplication;
+import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
+import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadServiceException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Instant;
 import java.util.Map;
 
+@Slf4j
 public class ApplicationConverter implements Converter<Form, NotarialApplication> {
+
+    private DocumentUploadService documentUploadService;
+
+    public ApplicationConverter(@NonNull DocumentUploadService documentUploadService) {
+        this.documentUploadService = documentUploadService;
+    }
 
     @Override
     public NotarialApplication convert(Form source) {
@@ -20,12 +34,49 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = convertApplication(properties);
 
         if (!properties.isEmpty()) {
-            // files load, convert to bytes and set
+            // Load any attachments and format any properties not mapped to CASEBOOK into description field.
+            StringBuilder description = new StringBuilder();
 
-            // format into description anything else
-//            source.getQuestions().forEach(question -> {
-//
-//            });
+            source.getQuestions().stream()
+                    .filter(question -> question.getFields().stream()
+                            .anyMatch(field -> properties.containsKey(field.getProperty())))
+                    .forEach(question -> {
+                        StringBuilder answers = new StringBuilder();
+                        question.getFields().forEach(field -> {
+                            if ("file".equals(field.getType())) {
+                                try {
+                                    String fileLocation = field.getAnswer();
+                                    String fileName = null;
+                                    String fileExtension = null;
+                                    int i = fileLocation.lastIndexOf('.');
+                                    int j = fileLocation.lastIndexOf('/');
+                                    if (i > 0) {
+                                        fileName = fileLocation.substring(j + 1, i);
+                                        fileExtension = fileLocation.substring(i + 1);
+                                    }
+                                    String fileData = documentUploadService.getFileAsBase64(new URL(fileLocation));
+                                    application.addAttachment(new Attachment(fileName, fileData, fileExtension));
+                                } catch (DocumentUploadServiceException e) {
+                                    throw new RuntimeException("Error getting file data for form", e);
+                                } catch (MalformedURLException e) {
+                                    log.warn("Invalid file URL provided in form data", e);
+                                }
+                            } else if (properties.containsKey(field.getProperty())) {
+                                answers.append(field.getName())
+                                        .append(": ")
+                                        .append(field.getAnswer())
+                                        .append("\n");
+                            }
+                        });
+                        if (answers.length() > 0) {
+                            description.append(question.getQuestion())
+                                    .append("\n")
+                                    .append(answers)
+                                    .append("\n");
+                        }
+                    });
+
+            application.setDescription(description.toString());
         }
 
         return new NotarialApplication(
