@@ -22,3 +22,5 @@ Environment variable | Default | Description
 ROOT_LOGGING_LEVEL | `info` | Root logging level
 MESSAGE_QUEUE_ENDPOINT | http://localhost:9324 | SQS endpoint
 MESSAGE_QUEUE_URL | http://localhost:9324/queue/default | SQS message queue
+CASEBOOK_URL | | URL of CASEBOOK service
+CASEBOOK_KEY | | Secret key for CASEBOOK authentication
