@@ -1,5 +1,7 @@
 package uk.gov.fco.casemanagement.worker.service.casebook.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import lombok.NonNull;
 import lombok.ToString;
 
@@ -9,6 +11,7 @@ import java.time.Instant;
 public class NotarialApplication {
 
     @ToString.Include
+    @JsonSerialize(using = InstantSerializer.class)
     private Instant timestamp;
 
     @ToString.Include
@@ -16,11 +19,14 @@ public class NotarialApplication {
 
     private Application application;
 
-    public NotarialApplication(@NonNull Instant timestamp, @NonNull Applicant applicant,
+    public NotarialApplication(@NonNull Applicant applicant,
                                @NonNull Application application) {
-        this.timestamp = timestamp;
         this.applicant = applicant;
         this.application = application;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Instant getTimestamp() {

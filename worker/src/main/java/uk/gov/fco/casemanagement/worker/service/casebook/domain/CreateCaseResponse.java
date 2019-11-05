@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CreateCaseResponse {
 
-    private String applicantResponse;
+    private String applicantReference;
 
-    private String applicationResponse;
+    private String applicationReference;
 }

@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.fco.casemanagement.common.config.MessageQueueProperties;
 import uk.gov.fco.casemanagement.common.domain.Form;
+import uk.gov.fco.casemanagement.worker.service.CasebookServiceException;
 import uk.gov.fco.casemanagement.worker.service.casebook.CasebookService;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 
 @Component
@@ -73,12 +75,18 @@ public class MessageReceiver {
         try {
             form = objectMapper.readValue(message.getBody(), Form.class);
         } catch (IOException e) {
-            throw new RuntimeException(e); // TODO: Throw something else
+            // TODO: include correlation ID
+            throw new MessageReceiverException("Error deserialising form", e);
         }
 
-        // TODO: send along timestamp from message
-
-        String reference = casebookService.createCase(form);
+        String reference;
+        try {
+            // TODO: send along timestamp from message
+            reference = casebookService.createCase(Instant.now(), form);
+        } catch (CasebookServiceException e) {
+            // TODO: include correlation ID
+            throw new MessageReceiverException("Error creating case in casebook", e);
+        }
         log.debug("Case created, reference = {}", reference);
 
         MessageContent requestMessage = MessageContent.fromMessage(message);

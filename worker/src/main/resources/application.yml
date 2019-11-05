@@ -25,6 +25,10 @@ message-queue:
   internal-queue-prefix: ${INTERNAL_QUEUE_PREFIX:casemanagment-requester}
   request-timeout: 30000
 
+casebook:
+  url: ${CASEBOOK_URL:https://cma-dev.casemanager.co.uk}
+  key: ${CASEBOOK_KEY:4UTNDFKCGJUGBE0X40O0KYQWVKYK3QOHLMSLLGE8Q0KZ83EJ}
+
 ---
 
 spring:

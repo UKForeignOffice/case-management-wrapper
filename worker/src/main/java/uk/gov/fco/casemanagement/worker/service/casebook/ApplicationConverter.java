@@ -82,7 +82,6 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         }
 
         return new NotarialApplication(
-                Instant.now(), // TODO: should come from Application
                 applicant,
                 application
         );

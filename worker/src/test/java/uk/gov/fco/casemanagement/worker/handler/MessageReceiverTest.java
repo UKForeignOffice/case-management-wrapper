@@ -55,7 +55,6 @@ public class MessageReceiverTest {
 
     @Test
     public void shouldPollForMessagesWithCorrectArguments() {
-
         final String queueURL = "http://example.org";
         final Integer maxNumberOfMessages = 1;
 
@@ -76,8 +75,7 @@ public class MessageReceiverTest {
     }
 
     @Test
-    public void shouldSendApplicationToCasebook() {
-
+    public void shouldSendApplicationToCasebook() throws Exception {
         final String formId = "id";
 
         Message message = new Message();
@@ -91,7 +89,7 @@ public class MessageReceiverTest {
         messageReceiver.receiveMessage();
 
         ArgumentCaptor<Form> formArgumentCaptor = ArgumentCaptor.forClass(Form.class);
-        verify(casebookService).createCase(formArgumentCaptor.capture());
+        verify(casebookService).createCase(any(), formArgumentCaptor.capture());
 
         Form form = formArgumentCaptor.getValue();
 
@@ -100,8 +98,7 @@ public class MessageReceiverTest {
     }
 
     @Test
-    public void shouldRespondWithReferenceIfRequested() {
-
+    public void shouldRespondWithReferenceIfRequested() throws Exception {
         final String reference = "reference";
 
         Message message = new Message();
@@ -111,7 +108,7 @@ public class MessageReceiverTest {
         receiveMessageResult.setMessages(ImmutableList.of(message));
 
         when(amazonSQS.receiveMessage((ReceiveMessageRequest) any())).thenReturn(receiveMessageResult);
-        when(casebookService.createCase(any())).thenReturn(reference);
+        when(casebookService.createCase(any(), any())).thenReturn(reference);
         when(amazonSQSResponder.isResponseMessageRequested(any())).thenReturn(true);
 
         messageReceiver.receiveMessage();
@@ -127,7 +124,6 @@ public class MessageReceiverTest {
 
     @Test
     public void shouldDeleteMessage() {
-
         final String queueUrl = "http://example.org";
         final String receiptHandle = "receipt-handle";
 
