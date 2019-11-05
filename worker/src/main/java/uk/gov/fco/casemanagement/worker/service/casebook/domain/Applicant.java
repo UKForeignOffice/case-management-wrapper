@@ -16,7 +16,6 @@ public class Applicant {
 
     private String title;
 
-    // TODO: format
     private String dateOfBirth;
 
     private String email;

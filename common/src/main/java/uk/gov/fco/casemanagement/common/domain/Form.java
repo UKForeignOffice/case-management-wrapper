@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableMap;
 
 @ToString
 public class Form {
@@ -41,6 +42,8 @@ public class Form {
         return unmodifiableList(fees);
     }
 
+    public Map<String, String> metadata = new HashMap<>();
+
     public void setFees(List<Fees> fees) {
         this.fees.clear();
         if (fees != null) {
@@ -52,6 +55,17 @@ public class Form {
         return unmodifiableList(questions);
     }
 
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata.clear();
+        if (metadata != null) {
+            this.metadata.putAll(metadata);
+        }
+    }
+
+    public Map<String, String> getMetadata() {
+        return unmodifiableMap(metadata);
+    }
+
     @JsonIgnore
     public Map<String, String> getAnswers() {
         Map<String, String> answers = new HashMap<>();
@@ -60,6 +74,7 @@ public class Form {
                 answers.put(field.getId(), field.getAnswer());
             });
         });
+        answers.putAll(metadata);
         return answers;
     }
 }

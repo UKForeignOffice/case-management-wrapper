@@ -5,13 +5,13 @@ import uk.gov.fco.casemanagement.common.domain.Field;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.common.domain.Question;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 class FormBuilder {
 
     private List<Question> questions = new ArrayList<>();
+
+    private Map<String, String> metadata = new HashMap<>();
 
     FormBuilder withQuestion(String property, String answer) {
 
@@ -31,8 +31,14 @@ class FormBuilder {
         return this;
     }
 
+    FormBuilder withMetadata(@NonNull String key, @NonNull String value) {
+        metadata.put(key, value);
+        return this;
+    }
+
     Form build() {
         Form form = new Form(questions);
+        form.setMetadata(metadata);
         return form;
     }
 }

@@ -15,7 +15,7 @@ public class Application {
 
     private String description;
 
-    private String customerInsightConsent;
+    private String customerInsightConsent = "No";
 
     private String reasonForBeingOverseas;
 

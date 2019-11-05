@@ -26,8 +26,8 @@ message-queue:
   request-timeout: 30000
 
 casebook:
-  url: ${CASEBOOK_URL:https://cma-dev.casemanager.co.uk}
-  key: ${CASEBOOK_KEY:4UTNDFKCGJUGBE0X40O0KYQWVKYK3QOHLMSLLGE8Q0KZ83EJ}
+  url: ${CASEBOOK_URL:url}
+  key: ${CASEBOOK_KEY:key}
 
 ---
 
