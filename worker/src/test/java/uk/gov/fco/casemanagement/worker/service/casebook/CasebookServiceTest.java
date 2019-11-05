@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,11 +22,14 @@ import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadSer
 import java.time.Instant;
 
 import static java.util.Collections.emptyList;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CasebookServiceTest {
 
@@ -46,7 +48,7 @@ public class CasebookServiceTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
         casebookService = new CasebookService(documentUploadService, restTemplate,
                 properties, objectMapper);
     }
@@ -74,7 +76,7 @@ public class CasebookServiceTest {
         assertThat(headers, notNullValue());
         assertThat(headers.getAccept(), equalTo(ImmutableList.of(MediaType.APPLICATION_JSON)));
         assertThat(headers.getContentType(), equalTo(MediaType.APPLICATION_JSON_UTF8));
-        assertThat(headers.get("hmac"), equalTo(ImmutableList.of("D79FEE361340E9322042FF54682EE0C4A4DB22FA68059B8BD7D0987E1817C5E1C17E60E597B0610BF17AD2C9037DEFE80B48FF08255AE42B9566EA14395508B4")));
+        assertThat(headers.get("hash"), equalTo(ImmutableList.of("279EA609EAB05DA89E23CEF299249E4EDBCD4AFD10CFF56B729334EC8A0F32408D5D4D917CFA7A0C208BBB62F78A7BD68D3B80511D029EA966E12955F0C3ABB8")));
     }
 
     @Test
@@ -109,10 +111,16 @@ public class CasebookServiceTest {
 
         assertThat(httpEntity, notNullValue());
 
-        NotarialApplication notarialApplication = objectMapper.readValue((String) httpEntity.getBody(), NotarialApplication.class);
+        String body = (String) httpEntity.getBody();
+
+        assertThat(body, startsWith("{\"notarialApplication\":"));
+
+        body = body.substring("{\"notarialApplication\":".length(), body.length() - 1);
+
+        NotarialApplication notarialApplication = objectMapper.readValue(body, NotarialApplication.class);
 
         assertThat(notarialApplication, notNullValue());
-        assertThat(notarialApplication.getTimestamp(), equalTo(Instant.MIN));
+        assertThat(notarialApplication.getTimestamp(), equalTo(Instant.MIN.getEpochSecond()));
 
         Applicant applicant = notarialApplication.getApplicant();
 

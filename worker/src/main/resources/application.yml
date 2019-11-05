@@ -20,9 +20,9 @@ logging:
     org.springframework: INFO
 
 message-queue:
-  endpoint: ${MESSAGE_QUEUE_ENDPOINT:https://sqs.eu-west-1.amazonaws.com}
-  queue-url: ${MESSAGE_QUEUE_URL:https://sqs.eu-west-1.amazonaws.com/545108028694/fco-forms-casemanagement-queue.fifo}
-  internal-queue-prefix: ${INTERNAL_QUEUE_PREFIX:casemanagment-requester}
+  endpoint: ${MESSAGE_QUEUE_ENDPOINT:http://localhost:9324}
+  queue-url: ${MESSAGE_QUEUE_URL:http://localhost:9324/queues/default}
+  internal-queue-prefix: ${INTERNAL_QUEUE_PREFIX:casemgmt-requester}
   request-timeout: 30000
 
 casebook:

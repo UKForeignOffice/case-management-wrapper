@@ -29,7 +29,7 @@ public class CasebookService {
 
     private static final String HMAC_ALGORITHM = "HmacSHA512";
 
-    private static final String HMAC_HEADER_NAME = "hmac";
+    private static final String HMAC_HEADER_NAME = "hash";
 
     private static final String SUBMIT_APPLICATION_PATH = "/jaxrs/notarial/submitApplication";
 
@@ -58,10 +58,10 @@ public class CasebookService {
         NotarialApplication notarialApplication = new ApplicationConverter(documentUploadService)
                 .convert(form);
 
-        notarialApplication.setTimestamp(submittedAt);
+        notarialApplication.setTimestamp(submittedAt.getEpochSecond());
 
         try {
-            String requestBody = objectMapper.writeValueAsString(notarialApplication);
+            String requestBody = "{\"notarialApplication\":" + objectMapper.writeValueAsString(notarialApplication) + "}";
             String hmac = createHmac(requestBody, properties.getKey());
 
             log.debug("Sending request: {}", requestBody);
@@ -91,6 +91,7 @@ public class CasebookService {
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new CasebookServiceException("Error creating HMAC hash", e);
         } catch (RestClientException e) {
+
             throw new CasebookServiceException("Error sending form to casebook", e);
         }
     }
