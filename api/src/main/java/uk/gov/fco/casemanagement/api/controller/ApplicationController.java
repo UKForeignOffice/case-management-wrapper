@@ -63,9 +63,10 @@ public class ApplicationController {
                     description = "The form to submit",
                     required = true,
                     content = @Content(
-                            schema = @Schema(type = "object")
-                    )
-            ) @RequestBody Form form) {
+                            schema = @Schema(
+                                    type = "object",
+                                    implementation = Form.class)))
+            @RequestBody Form form) {
         log.debug("Submitting application form {}", form);
 
         DeferredResult<ResponseEntity<?>> output = new DeferredResult<>(REQUEST_TIMEOUT);
@@ -78,8 +79,8 @@ public class ApplicationController {
         ForkJoinPool.commonPool().submit(() -> {
             log.trace("Processing create case in separate thread");
             try {
-                String response = messageQueueService.send(form);
-                output.setResult(ResponseEntity.ok(response));
+                String reference = messageQueueService.send(form);
+                output.setResult(ResponseEntity.ok(new FormSubmissionResult(reference)));
             } catch (MessageQueueTimeoutException e) {
                 log.warn("Message queue timeout waiting for response", e);
                 output.setResult(ResponseEntity.accepted().build());
