@@ -62,11 +62,15 @@ public class CasebookService {
 
         try {
             String requestBody = objectMapper.writeValueAsString(notarialApplication);
+            String hmac = createHmac(requestBody, properties.getKey());
+
+            log.debug("Sending request: {}", requestBody);
+            log.debug("Sending request hmac: {}", hmac);
 
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
             headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-            headers.add(HMAC_HEADER_NAME, createHmac(requestBody, properties.getKey()));
+            headers.add(HMAC_HEADER_NAME, hmac);
 
             ResponseEntity<CreateCaseResponse> responseEntity = restTemplate.exchange(
                     properties.getUrl() + SUBMIT_APPLICATION_PATH,
@@ -74,7 +78,7 @@ public class CasebookService {
                     new HttpEntity<>(requestBody, headers),
                     CreateCaseResponse.class);
 
-            log.debug("Received response from casebook: {}", responseEntity);
+            log.debug("Received response: {}", responseEntity);
 
             CreateCaseResponse response = responseEntity.getBody();
 
@@ -95,6 +99,6 @@ public class CasebookService {
         Mac digest = Mac.getInstance(HMAC_ALGORITHM);
         digest.init(new SecretKeySpec(secret.getBytes(), HMAC_ALGORITHM));
         digest.update(requestBody.getBytes());
-        return Hex.encodeHexString(digest.doFinal());
+        return Hex.encodeHexString(digest.doFinal(), false);
     }
 }
