@@ -7,13 +7,10 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-import uk.gov.fco.casemanagement.common.config.MessageQueueConfig;
 import uk.gov.fco.casemanagement.worker.handler.MessageReceiver;
 import uk.gov.fco.casemanagement.worker.handler.MessageReceiverException;
 
 @SpringBootApplication
-@Import({MessageQueueConfig.class})
 @Slf4j
 public class Application implements CommandLineRunner {
 

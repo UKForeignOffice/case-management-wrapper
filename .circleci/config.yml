@@ -4,7 +4,6 @@ defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/openjdk:8-jdk
-    - image: roribio16/alpine-sqs:latest
 
 orbs:
   slack: circleci/slack@0.1.0
