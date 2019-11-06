@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.fco.casemanagement.api.service.MessageQueueService;
+import uk.gov.fco.casemanagement.api.service.MessageQueueTimeoutException;
 
 import javax.servlet.AsyncListener;
 
@@ -63,16 +64,13 @@ public class ApplicationControllerTest {
 
     @Test
     public void shouldReturnAcceptedOnTimeout() throws Exception {
+        when(messageQueueService.send(any())).thenThrow(new MessageQueueTimeoutException(null));
+
         MvcResult result = mockMvc.perform(post("/applications")
                 .content("{ \"questions\": [] }")
                 .contentType("application/json"))
                 .andExpect(request().asyncStarted())
                 .andReturn();
-
-        MockAsyncContext context = (MockAsyncContext) result.getRequest().getAsyncContext();
-        for (AsyncListener listener : context.getListeners()) {
-            listener.onTimeout(null);
-        }
 
         mockMvc.perform(asyncDispatch(result))
                 .andExpect(status().isAccepted());
