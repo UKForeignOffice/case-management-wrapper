@@ -18,6 +18,11 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
+/**
+ * MessageReceiver is responsible for receiving and processing messages. A message
+ * will contain a <code>Form</code> object that should be converted for submission
+ * to the Case Management System.
+ */
 @Component
 @Slf4j
 public class MessageReceiver {
