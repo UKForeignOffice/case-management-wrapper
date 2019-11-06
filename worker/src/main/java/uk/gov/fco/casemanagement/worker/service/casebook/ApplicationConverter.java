@@ -13,7 +13,6 @@ import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadSer
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Instant;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -89,7 +88,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
     private uk.gov.fco.casemanagement.worker.service.casebook.domain.Application convertApplication(Map<String, String> properties) {
         uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = new uk.gov.fco.casemanagement.worker.service.casebook.domain.Application();
-        setAndRemoveValue(properties, application::setCasetype, "caseType");
+        setAndRemoveValue(properties, application::setCaseType, "caseType");
         setAndRemoveValue(properties, application::setCustomerInsightConsent, "customerInsightConsent");
         setAndRemoveValue(properties, application::setMarriageCategory, "marriageCategory");
         setAndRemoveValue(properties, application::setPost, "post");

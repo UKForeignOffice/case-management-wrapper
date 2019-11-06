@@ -133,6 +133,6 @@ public class CasebookServiceTest {
         assertThat(application, notNullValue());
         assertThat(application.getPost(), equalTo(post));
         assertThat(application.getSummary(), equalTo(summary));
-        assertThat(application.getCasetype(), equalTo(caseType));
+        assertThat(application.getCaseType(), equalTo(caseType));
     }
 }

@@ -162,7 +162,7 @@ public class ApplicationConverterTest {
 
         assertThat(application, notNullValue());
         assertThat(application.getReasonForBeingOverseas(), equalTo(reasonForBeingOverseas));
-        assertThat(application.getCasetype(), equalTo(caseType));
+        assertThat(application.getCaseType(), equalTo(caseType));
         assertThat(application.getCustomerInsightConsent(), equalTo(customerInsightConsent));
         assertThat(application.getMarriageCategory(), equalTo(marriageCategory));
         assertThat(application.getPost(), equalTo(post));

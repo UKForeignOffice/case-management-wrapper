@@ -9,7 +9,7 @@ public class Application {
 
     private String post;
 
-    private String casetype;
+    private String caseType;
 
     private String summary;
 
@@ -31,12 +31,12 @@ public class Application {
         this.post = post;
     }
 
-    public String getCasetype() {
-        return casetype;
+    public String getCaseType() {
+        return caseType;
     }
 
-    public void setCasetype(String casetype) {
-        this.casetype = casetype;
+    public void setCaseType(String caseType) {
+        this.caseType = caseType;
     }
 
     public String getSummary() {
