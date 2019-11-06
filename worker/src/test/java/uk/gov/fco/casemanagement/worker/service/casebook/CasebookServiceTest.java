@@ -62,7 +62,7 @@ public class CasebookServiceTest {
                 .thenReturn(ResponseEntity.ok(response));
         when(properties.getKey()).thenReturn("key");
 
-        casebookService.createCase(Instant.MIN, new Form(emptyList()));
+        casebookService.createCase(Instant.ofEpochMilli(0), new Form(emptyList()));
 
         ArgumentCaptor<HttpEntity> httpEntityArgumentCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         verify(restTemplate).exchange(anyString(), any(), httpEntityArgumentCaptor.capture(), eq(CreateCaseResponse.class));
@@ -76,7 +76,7 @@ public class CasebookServiceTest {
         assertThat(headers, notNullValue());
         assertThat(headers.getAccept(), equalTo(ImmutableList.of(MediaType.APPLICATION_JSON)));
         assertThat(headers.getContentType(), equalTo(MediaType.APPLICATION_JSON_UTF8));
-        assertThat(headers.get("hash"), equalTo(ImmutableList.of("279EA609EAB05DA89E23CEF299249E4EDBCD4AFD10CFF56B729334EC8A0F32408D5D4D917CFA7A0C208BBB62F78A7BD68D3B80511D029EA966E12955F0C3ABB8")));
+        assertThat(headers.get("hash"), equalTo(ImmutableList.of("741CBAC2B6A8663D496565CAF96D8006384BE0C7F85805754840F49DE2508223C95ECF6C58FFEEBDA0E8F33341069BE7E904535FECA76D736779E9A2F0AC94B5")));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class CasebookServiceTest {
                 .thenReturn(ResponseEntity.ok(response));
         when(properties.getKey()).thenReturn("key");
 
-        casebookService.createCase(Instant.MIN, form);
+        casebookService.createCase(Instant.ofEpochMilli(0), form);
 
         ArgumentCaptor<HttpEntity> httpEntityArgumentCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         verify(restTemplate).exchange(anyString(), any(), httpEntityArgumentCaptor.capture(), eq(CreateCaseResponse.class));
@@ -120,7 +120,7 @@ public class CasebookServiceTest {
         NotarialApplication notarialApplication = objectMapper.readValue(body, NotarialApplication.class);
 
         assertThat(notarialApplication, notNullValue());
-        assertThat(notarialApplication.getTimestamp(), equalTo(Instant.MIN.getEpochSecond()));
+        assertThat(notarialApplication.getTimestamp(), equalTo(0L));
 
         Applicant applicant = notarialApplication.getApplicant();
 

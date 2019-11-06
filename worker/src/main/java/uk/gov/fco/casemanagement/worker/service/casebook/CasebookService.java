@@ -58,7 +58,7 @@ public class CasebookService {
         NotarialApplication notarialApplication = new ApplicationConverter(documentUploadService)
                 .convert(form);
 
-        notarialApplication.setTimestamp(submittedAt.getEpochSecond());
+        notarialApplication.setTimestamp(submittedAt.toEpochMilli());
 
         try {
             String requestBody = "{\"notarialApplication\":" + objectMapper.writeValueAsString(notarialApplication) + "}";
@@ -91,7 +91,6 @@ public class CasebookService {
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new CasebookServiceException("Error creating HMAC hash", e);
         } catch (RestClientException e) {
-
             throw new CasebookServiceException("Error sending form to casebook", e);
         }
     }
