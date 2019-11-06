@@ -227,7 +227,7 @@ public class ApplicationConverterTest {
         Attachment attachment = attachments.get(0);
 
         assertThat(attachment, notNullValue());
-        assertThat(attachment.getFileName(), equalTo("file"));
+        assertThat(attachment.getFileName(), equalTo("file.pdf"));
         assertThat(attachment.getFileExtension(), equalTo("pdf"));
         assertThat(attachment.getFileData(), equalTo(fileData));
     }

@@ -52,7 +52,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                                     int i = fileLocation.lastIndexOf('.');
                                     int j = fileLocation.lastIndexOf('/');
                                     if (i > 0) {
-                                        fileName = fileLocation.substring(j + 1, i);
+                                        fileName = fileLocation.substring(j + 1);
                                         fileExtension = fileLocation.substring(i + 1);
                                     }
                                     String fileData = documentUploadService.getFileAsBase64(new URL(fileLocation));
