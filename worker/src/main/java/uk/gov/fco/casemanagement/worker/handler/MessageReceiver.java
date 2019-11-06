@@ -14,7 +14,6 @@ import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.CasebookServiceException;
 import uk.gov.fco.casemanagement.worker.service.casebook.CasebookService;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
@@ -48,14 +47,7 @@ public class MessageReceiver {
         this.objectMapper = objectMapper;
     }
 
-    @PostConstruct
-    public void listen() {
-        while (true) {
-            receiveMessage();
-        }
-    }
-
-    void receiveMessage() {
+    public void receiveMessage() {
         log.trace("Polling for new message");
         List<Message> messages = amazonSQS.receiveMessage(new ReceiveMessageRequest()
                 .withMessageAttributeNames("ResponseQueueUrl")

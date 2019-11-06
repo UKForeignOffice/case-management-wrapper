@@ -10,8 +10,6 @@ The current Case Management System this API integrates to is CASEBOOK.
 Request processing is mediated by a message queue to mitigate downstream
 errors, for example availability, of Case Management System.
 
-Current implementation is using AWS SQS directly. If ever  
-
 ## Configuration
 
 Configuration for each component can be found in the relevant `application.yml`. Some of 
