@@ -1,7 +1,6 @@
 package uk.gov.fco.casemanagement.api.config;
 
 import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSRequester;
 import com.amazonaws.services.sqs.AmazonSQSRequesterClientBuilder;
 import lombok.NonNull;
@@ -9,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import uk.gov.fco.casemanagement.common.config.MessageQueueProperties;
 
 @Configuration
 @EnableConfigurationProperties(MessageQueueProperties.class)
-@Profile("!test")
 public class MessageQueueSenderConfig {
 
     private AmazonSQS amazonSQS;
