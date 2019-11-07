@@ -34,7 +34,7 @@ public class Field {
     }
 
     public String getId() {
-        return id;
+        return id.toLowerCase();
     }
 
     public String getType() {

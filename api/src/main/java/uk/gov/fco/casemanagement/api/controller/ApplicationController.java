@@ -30,6 +30,8 @@ import static org.glassfish.jersey.internal.guava.Preconditions.checkNotNull;
 @OpenAPIDefinition()
 public class ApplicationController {
 
+    private static final Long REQUEST_TIMEOUT = 30000L;
+
     private MessageQueueService messageQueueService;
 
     @Autowired
@@ -67,7 +69,12 @@ public class ApplicationController {
             @RequestBody Form form) {
         log.debug("Submitting application form {}", form);
 
-        DeferredResult<ResponseEntity<?>> output = new DeferredResult<>();
+        DeferredResult<ResponseEntity<?>> output = new DeferredResult<>(REQUEST_TIMEOUT);
+
+        output.onTimeout(() -> {
+            log.warn("Timeout waiting for response");
+            output.setResult(ResponseEntity.accepted().build());
+        });
 
         ForkJoinPool.commonPool().submit(() -> {
             log.trace("Processing create case in separate thread");

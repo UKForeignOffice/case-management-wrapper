@@ -68,10 +68,10 @@ public class Form {
         Map<String, Object> answers = new HashMap<>();
         questions.forEach(question -> {
             question.getFields().forEach(field -> {
-                answers.put(field.getId().toLowerCase(), field.getAnswer());
+                answers.put(field.getId(), field.getAnswer());
             });
         });
-        answers.putAll(metadata);
+        metadata.forEach((key, value) -> answers.put(key.toLowerCase(), value));
         return answers;
     }
 }
