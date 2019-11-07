@@ -68,7 +68,7 @@ public class Form {
         Map<String, Object> answers = new HashMap<>();
         questions.forEach(question -> {
             question.getFields().forEach(field -> {
-                answers.put(field.getId(), field.getAnswer());
+                answers.put(field.getId().toLowerCase(), field.getAnswer());
             });
         });
         answers.putAll(metadata);

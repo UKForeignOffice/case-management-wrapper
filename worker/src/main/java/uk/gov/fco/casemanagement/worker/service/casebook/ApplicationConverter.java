@@ -93,11 +93,11 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
     private uk.gov.fco.casemanagement.worker.service.casebook.domain.Application convertApplication(Map<String, Object> properties) {
         uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = new uk.gov.fco.casemanagement.worker.service.casebook.domain.Application();
-        setAndRemoveStringValue(properties, application::setCaseType, "caseType");
-        setAndRemoveStringValue(properties, application::setCustomerInsightConsent, "customerInsightConsent");
-        setAndRemoveStringValue(properties, application::setMarriageCategory, "marriageCategory");
+        setAndRemoveStringValue(properties, application::setCaseType, "casetype");
+        setAndRemoveStringValue(properties, application::setCustomerInsightConsent, "customerinsightconsent");
+        setAndRemoveStringValue(properties, application::setMarriageCategory, "marriagecategory");
         setAndRemoveStringValue(properties, application::setPost, "post");
-        setAndRemoveStringValue(properties, application::setReasonForBeingOverseas, "reasonForBeingOverseas");
+        setAndRemoveStringValue(properties, application::setReasonForBeingOverseas, "reasonforbeingoverseas");
         setAndRemoveStringValue(properties, application::setSummary, "summary");
 
         return application;
@@ -105,11 +105,11 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
     private Applicant convertApplicant(Map<String, Object> properties) {
         Address address = new Address();
-        setAndRemoveStringValue(properties, address::setCompanyName, "companyName");
+        setAndRemoveStringValue(properties, address::setCompanyName, "companyname");
         setAndRemoveStringValue(properties, address::setCountry, "country");
         setAndRemoveStringValue(properties, address::setDistrict, "district");
-        setAndRemoveStringValue(properties, address::setFlatNumber, "flatNumber");
-        setAndRemoveStringValue(properties, address::setHouseNumber, "houseNumber");
+        setAndRemoveStringValue(properties, address::setFlatNumber, "flatnumber");
+        setAndRemoveStringValue(properties, address::setHouseNumber, "housenumber");
         setAndRemoveStringValue(properties, address::setPostcode, "postcode");
         setAndRemoveStringValue(properties, address::setPremises, "premises");
         setAndRemoveStringValue(properties, address::setRegion, "region");
@@ -117,20 +117,20 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         setAndRemoveStringValue(properties, address::setTown, "town");
 
         Applicant applicant = new Applicant();
-        setAndRemoveStringValue(properties, applicant::setCityOfBirth, "cityOfBirth");
-        setAndRemoveStringValue(properties, applicant::setCountryOfBirth, "countryOfBirth");
-        setAndRemoveDateValue(properties, applicant::setDateOfBirth, "dateOfBirth");
-        setAndRemoveStringValue(properties, applicant::setEmail, "emailAddress");
+        setAndRemoveStringValue(properties, applicant::setCityOfBirth, "cityofbirth");
+        setAndRemoveStringValue(properties, applicant::setCountryOfBirth, "countryofbirth");
+        setAndRemoveDateValue(properties, applicant::setDateOfBirth, "dateofbirth");
+        setAndRemoveStringValue(properties, applicant::setEmail, "emailaddress");
         setAndRemoveStringValue(properties, applicant::setEthnicity, "ethnicity");
-        setAndRemoveStringValue(properties, applicant::setEveningTelephone, "eveningTelephone");
-        setAndRemoveStringValue(properties, applicant::setForenames, "firstName", "middleName");
+        setAndRemoveStringValue(properties, applicant::setEveningTelephone, "eveningtelephone");
+        setAndRemoveStringValue(properties, applicant::setForenames, "firstname", "middlename", "forenames");
         setAndRemoveStringValue(properties, applicant::setLanguage, "language");
-        setAndRemoveStringValue(properties, applicant::setMobileTelephone, "mobileTelephone");
+        setAndRemoveStringValue(properties, applicant::setMobileTelephone, "mobiletelephone");
         setAndRemoveStringValue(properties, applicant::setNationality, "nationality");
-        setAndRemoveStringValue(properties, applicant::setPrimaryTelephone, "primaryTelephone");
+        setAndRemoveStringValue(properties, applicant::setPrimaryTelephone, "primarytelephone");
         setAndRemoveStringValue(properties, applicant::setReference, "reference");
-        setAndRemoveStringValue(properties, applicant::setSecondNationality, "secondNationality");
-        setAndRemoveStringValue(properties, applicant::setSurname, "lastName");
+        setAndRemoveStringValue(properties, applicant::setSecondNationality, "secondnationality");
+        setAndRemoveStringValue(properties, applicant::setSurname, "lastname", "surname");
         setAndRemoveStringValue(properties, applicant::setTitle, "title");
 
         applicant.setAddress(address);
