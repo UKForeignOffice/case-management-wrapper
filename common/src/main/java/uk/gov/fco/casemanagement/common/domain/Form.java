@@ -21,7 +21,7 @@ public class Form {
 
     private String name;
 
-    private List<Fees> fees = new ArrayList<>();
+    private Fees fees;
 
     private List<Question> questions = new ArrayList<>();
 
@@ -38,17 +38,14 @@ public class Form {
         return name;
     }
 
-    public List<Fees> getFees() {
-        return unmodifiableList(fees);
-    }
-
     public Map<String, String> metadata = new HashMap<>();
 
-    public void setFees(List<Fees> fees) {
-        this.fees.clear();
-        if (fees != null) {
-            this.fees.addAll(fees);
-        }
+    public Fees getFees() {
+        return fees;
+    }
+
+    public void setFees(Fees fees) {
+        this.fees = fees;
     }
 
     public List<Question> getQuestions() {
@@ -67,8 +64,8 @@ public class Form {
     }
 
     @JsonIgnore
-    public Map<String, String> getAnswers() {
-        Map<String, String> answers = new HashMap<>();
+    public Map<String, Object> getAnswers() {
+        Map<String, Object> answers = new HashMap<>();
         questions.forEach(question -> {
             question.getFields().forEach(field -> {
                 answers.put(field.getId(), field.getAnswer());

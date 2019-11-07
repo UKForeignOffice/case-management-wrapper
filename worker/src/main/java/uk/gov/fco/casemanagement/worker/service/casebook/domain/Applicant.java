@@ -2,8 +2,6 @@ package uk.gov.fco.casemanagement.worker.service.casebook.domain;
 
 import lombok.ToString;
 
-import java.time.Instant;
-
 @ToString(onlyExplicitlyIncluded = true)
 public class Applicant {
 

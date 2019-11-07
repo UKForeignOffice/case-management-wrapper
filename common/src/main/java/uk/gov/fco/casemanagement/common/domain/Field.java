@@ -4,7 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class Field {
+
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private String id;
 
@@ -39,7 +45,14 @@ public class Field {
         return title;
     }
 
-    public String getAnswer() {
+    public Object getAnswer() {
+        if (answer != null && "date".equals(type)) {
+            try {
+                return DATE_FORMAT.parse(answer);
+            } catch (ParseException e) {
+                throw new RuntimeException("Error parsing date", e);
+            }
+        }
         return answer;
     }
 }

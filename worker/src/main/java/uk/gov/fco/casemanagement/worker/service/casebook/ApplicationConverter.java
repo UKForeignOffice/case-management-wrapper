@@ -13,12 +13,17 @@ import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadSer
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 public class ApplicationConverter implements Converter<Form, NotarialApplication> {
+
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     private DocumentUploadService documentUploadService;
 
@@ -29,7 +34,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
     @Override
     public NotarialApplication convert(Form source) {
 
-        Map<String, String> properties = source.getAnswers();
+        Map<String, Object> properties = source.getAnswers();
 
         Applicant applicant = convertApplicant(properties);
         uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = convertApplication(properties);
@@ -46,7 +51,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                         question.getFields().forEach(field -> {
                             if ("file".equals(field.getType())) {
                                 try {
-                                    String fileLocation = field.getAnswer();
+                                    String fileLocation = (String) field.getAnswer();
                                     String fileName = null;
                                     String fileExtension = null;
                                     int i = fileLocation.lastIndexOf('.');
@@ -86,58 +91,58 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         );
     }
 
-    private uk.gov.fco.casemanagement.worker.service.casebook.domain.Application convertApplication(Map<String, String> properties) {
+    private uk.gov.fco.casemanagement.worker.service.casebook.domain.Application convertApplication(Map<String, Object> properties) {
         uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = new uk.gov.fco.casemanagement.worker.service.casebook.domain.Application();
-        setAndRemoveValue(properties, application::setCaseType, "caseType");
-        setAndRemoveValue(properties, application::setCustomerInsightConsent, "customerInsightConsent");
-        setAndRemoveValue(properties, application::setMarriageCategory, "marriageCategory");
-        setAndRemoveValue(properties, application::setPost, "post");
-        setAndRemoveValue(properties, application::setReasonForBeingOverseas, "reasonForBeingOverseas");
-        setAndRemoveValue(properties, application::setSummary, "summary");
+        setAndRemoveStringValue(properties, application::setCaseType, "caseType");
+        setAndRemoveStringValue(properties, application::setCustomerInsightConsent, "customerInsightConsent");
+        setAndRemoveStringValue(properties, application::setMarriageCategory, "marriageCategory");
+        setAndRemoveStringValue(properties, application::setPost, "post");
+        setAndRemoveStringValue(properties, application::setReasonForBeingOverseas, "reasonForBeingOverseas");
+        setAndRemoveStringValue(properties, application::setSummary, "summary");
 
         return application;
     }
 
-    private Applicant convertApplicant(Map<String, String> properties) {
+    private Applicant convertApplicant(Map<String, Object> properties) {
         Address address = new Address();
-        setAndRemoveValue(properties, address::setCompanyName, "companyName");
-        setAndRemoveValue(properties, address::setCountry, "country");
-        setAndRemoveValue(properties, address::setDistrict, "district");
-        setAndRemoveValue(properties, address::setFlatNumber, "flatNumber");
-        setAndRemoveValue(properties, address::setHouseNumber, "houseNumber");
-        setAndRemoveValue(properties, address::setPostcode, "postcode");
-        setAndRemoveValue(properties, address::setPremises, "premises");
-        setAndRemoveValue(properties, address::setRegion, "region");
-        setAndRemoveValue(properties, address::setStreet, "street");
-        setAndRemoveValue(properties, address::setTown, "town");
+        setAndRemoveStringValue(properties, address::setCompanyName, "companyName");
+        setAndRemoveStringValue(properties, address::setCountry, "country");
+        setAndRemoveStringValue(properties, address::setDistrict, "district");
+        setAndRemoveStringValue(properties, address::setFlatNumber, "flatNumber");
+        setAndRemoveStringValue(properties, address::setHouseNumber, "houseNumber");
+        setAndRemoveStringValue(properties, address::setPostcode, "postcode");
+        setAndRemoveStringValue(properties, address::setPremises, "premises");
+        setAndRemoveStringValue(properties, address::setRegion, "region");
+        setAndRemoveStringValue(properties, address::setStreet, "street");
+        setAndRemoveStringValue(properties, address::setTown, "town");
 
         Applicant applicant = new Applicant();
-        setAndRemoveValue(properties, applicant::setCityOfBirth, "cityOfBirth");
-        setAndRemoveValue(properties, applicant::setCountryOfBirth, "countryOfBirth");
-        setAndRemoveValue(properties, applicant::setDateOfBirth, "dateOfBirth");
-        setAndRemoveValue(properties, applicant::setEmail, "emailAddress");
-        setAndRemoveValue(properties, applicant::setEthnicity, "ethnicity");
-        setAndRemoveValue(properties, applicant::setEveningTelephone, "eveningTelephone");
-        setAndRemoveValue(properties, applicant::setForenames, "firstName", "middleName");
-        setAndRemoveValue(properties, applicant::setLanguage, "language");
-        setAndRemoveValue(properties, applicant::setMobileTelephone, "mobileTelephone");
-        setAndRemoveValue(properties, applicant::setNationality, "nationality");
-        setAndRemoveValue(properties, applicant::setPrimaryTelephone, "primaryTelephone");
-        setAndRemoveValue(properties, applicant::setReference, "reference");
-        setAndRemoveValue(properties, applicant::setSecondNationality, "secondNationality");
-        setAndRemoveValue(properties, applicant::setSurname, "lastName");
-        setAndRemoveValue(properties, applicant::setTitle, "title");
+        setAndRemoveStringValue(properties, applicant::setCityOfBirth, "cityOfBirth");
+        setAndRemoveStringValue(properties, applicant::setCountryOfBirth, "countryOfBirth");
+        setAndRemoveDateValue(properties, applicant::setDateOfBirth, "dateOfBirth");
+        setAndRemoveStringValue(properties, applicant::setEmail, "emailAddress");
+        setAndRemoveStringValue(properties, applicant::setEthnicity, "ethnicity");
+        setAndRemoveStringValue(properties, applicant::setEveningTelephone, "eveningTelephone");
+        setAndRemoveStringValue(properties, applicant::setForenames, "firstName", "middleName");
+        setAndRemoveStringValue(properties, applicant::setLanguage, "language");
+        setAndRemoveStringValue(properties, applicant::setMobileTelephone, "mobileTelephone");
+        setAndRemoveStringValue(properties, applicant::setNationality, "nationality");
+        setAndRemoveStringValue(properties, applicant::setPrimaryTelephone, "primaryTelephone");
+        setAndRemoveStringValue(properties, applicant::setReference, "reference");
+        setAndRemoveStringValue(properties, applicant::setSecondNationality, "secondNationality");
+        setAndRemoveStringValue(properties, applicant::setSurname, "lastName");
+        setAndRemoveStringValue(properties, applicant::setTitle, "title");
 
         applicant.setAddress(address);
 
         return applicant;
     }
 
-    private void setAndRemoveValue(Map<String, String> properties, SetterFunction setter, String... keys) {
+    private void setAndRemoveStringValue(Map<String, Object> properties, SetterFunction setter, String... keys) {
         StringBuilder value = new StringBuilder();
         for (String key : keys) {
             if (properties.containsKey(key)) {
-                String answer = properties.remove(key);
+                String answer = (String) properties.remove(key);
                 if (isNotBlank(answer)) {
                     if (value.length() > 0) {
                         value.append(" ");
@@ -148,6 +153,15 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         }
         if (value.length() > 0) {
             setter.call(value.toString());
+        }
+    }
+
+    private void setAndRemoveDateValue(Map<String, Object> properties, SetterFunction setter, String key) {
+        if (properties.containsKey(key)) {
+            Date answer = (Date) properties.remove(key);
+            if (answer != null) {
+                setter.call(DATE_FORMAT.format(answer));
+            }
         }
     }
 
