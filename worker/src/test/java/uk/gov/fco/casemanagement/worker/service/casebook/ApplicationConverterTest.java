@@ -83,7 +83,7 @@ public class ApplicationConverterTest {
 
         final String cityOfBirth = "cityOfBirth";
         final String countryOfBirth = "countryOfBirth";
-        final String dateOfBirth = "dateOfBirth";
+        final String dateOfBirth = "1980-10-01";
         final String emailAddress = "emailAddress";
         final String ethnicity = "ethnicity";
         final String eveningTelephone = "eveningTelephone";
@@ -101,7 +101,9 @@ public class ApplicationConverterTest {
         Form form = new FormBuilder()
                 .withQuestion("cityOfBirth", cityOfBirth)
                 .withQuestion("countryOfBirth", countryOfBirth)
-                .withQuestion("dateOfBirth", dateOfBirth)
+                .withQuestion(new QuestionBuilder()
+                        .withField("dateOfBirth", "dateOfBirth", "date", dateOfBirth)
+                        .build())
                 .withQuestion("emailAddress", emailAddress)
                 .withQuestion("ethnicity", ethnicity)
                 .withQuestion("eveningTelephone", eveningTelephone)
@@ -123,7 +125,7 @@ public class ApplicationConverterTest {
         assertThat(applicant, notNullValue());
         assertThat(applicant.getCityOfBirth(), equalTo(cityOfBirth));
         assertThat(applicant.getCountryOfBirth(), equalTo(countryOfBirth));
-        assertThat(applicant.getDateOfBirth(), equalTo(dateOfBirth));
+        assertThat(applicant.getDateOfBirth(), equalTo("01/10/1980"));
         assertThat(applicant.getEmail(), equalTo(emailAddress));
         assertThat(applicant.getEthnicity(), equalTo(ethnicity));
         assertThat(applicant.getEveningTelephone(), equalTo(eveningTelephone));
