@@ -243,7 +243,7 @@ public class ApplicationConverterTest {
         final String total = "0.50";
 
         Form form = new FormBuilder()
-                .withFees(new Fees(paymentReference, new BigDecimal(total)))
+                .withFees(new Fees(paymentReference, new BigDecimal("50")))
                 .build();
 
         NotarialApplication notarialApplication = applicationConverter.convert(form);

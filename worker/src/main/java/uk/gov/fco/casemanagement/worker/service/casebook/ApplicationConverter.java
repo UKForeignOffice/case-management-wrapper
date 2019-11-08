@@ -12,6 +12,7 @@ import uk.gov.fco.casemanagement.worker.service.casebook.domain.NotarialApplicat
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadServiceException;
 
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -29,6 +30,8 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
+
+    private static final BigDecimal ONE_HUNDRED = new BigDecimal("100");
 
     private DocumentUploadService documentUploadService;
 
@@ -92,7 +95,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
             Fees fees = source.getFees();
             description
                     .append("\nAmount paid: ")
-                    .append(CURRENCY_FORMAT.format(fees.getTotal().doubleValue()))
+                    .append(CURRENCY_FORMAT.format(fees.getTotal().divide(ONE_HUNDRED)))
                     .append("\nPayment reference: ")
                     .append(fees.getPaymentReference());
         }
