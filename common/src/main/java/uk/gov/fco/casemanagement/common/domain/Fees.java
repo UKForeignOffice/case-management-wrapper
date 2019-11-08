@@ -12,21 +12,21 @@ import static java.util.Collections.unmodifiableList;
 
 public class Fees {
 
-    private String receipt;
+    private String paymentReference;
 
     private BigDecimal total;
 
     private List<FeeDetail> details = new ArrayList<>();
 
     @JsonCreator
-    public Fees(@JsonProperty("receipt") @NonNull String receipt,
+    public Fees(@JsonProperty("paymentReference") @NonNull String paymentReference,
                 @JsonProperty("total") @NonNull BigDecimal total) {
-        this.receipt = receipt;
+        this.paymentReference = paymentReference;
         this.total = total;
     }
 
-    public String getReceipt() {
-        return receipt;
+    public String getPaymentReference() {
+        return paymentReference;
     }
 
     public BigDecimal getTotal() {

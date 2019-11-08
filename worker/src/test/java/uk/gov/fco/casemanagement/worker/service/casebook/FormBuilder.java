@@ -1,6 +1,7 @@
 package uk.gov.fco.casemanagement.worker.service.casebook;
 
 import org.springframework.lang.NonNull;
+import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Field;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.common.domain.Question;
@@ -8,6 +9,8 @@ import uk.gov.fco.casemanagement.common.domain.Question;
 import java.util.*;
 
 class FormBuilder {
+
+    private Fees fees;
 
     private List<Question> questions = new ArrayList<>();
 
@@ -36,9 +39,15 @@ class FormBuilder {
         return this;
     }
 
+    FormBuilder withFees(Fees fees) {
+        this.fees = fees;
+        return this;
+    }
+
     Form build() {
         Form form = new Form(questions);
         form.setMetadata(metadata);
+        form.setFees(fees);
         return form;
     }
 }

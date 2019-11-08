@@ -3,6 +3,7 @@ package uk.gov.fco.casemanagement.worker.service.casebook;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
+import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.Address;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.Applicant;
@@ -14,8 +15,10 @@ import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadSer
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -24,6 +27,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class ApplicationConverter implements Converter<Form, NotarialApplication> {
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+
+    private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(Locale.UK);
 
     private DocumentUploadService documentUploadService;
 
@@ -39,10 +44,10 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         Applicant applicant = convertApplicant(properties);
         uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = convertApplication(properties);
 
+        StringBuilder description = new StringBuilder();
+
         if (!properties.isEmpty()) {
             // Load any attachments and format any properties not mapped to CASEBOOK into description field.
-            StringBuilder description = new StringBuilder();
-
             source.getQuestions().stream()
                     .filter(question -> question.getFields().stream()
                             .anyMatch(field -> properties.containsKey(field.getId())))
@@ -81,9 +86,18 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                                     .append("\n");
                         }
                     });
-
-            application.setDescription(description.toString());
         }
+
+        if (source.getFees() != null) {
+            Fees fees = source.getFees();
+            description
+                    .append("\nAmount paid: ")
+                    .append(CURRENCY_FORMAT.format(fees.getTotal().doubleValue()))
+                    .append("\nPayment reference: ")
+                    .append(fees.getPaymentReference());
+        }
+
+        application.setDescription(description.toString());
 
         return new NotarialApplication(
                 applicant,

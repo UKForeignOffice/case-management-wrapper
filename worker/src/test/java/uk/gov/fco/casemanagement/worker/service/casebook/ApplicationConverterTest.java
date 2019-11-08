@@ -5,10 +5,12 @@ import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 
@@ -232,5 +234,29 @@ public class ApplicationConverterTest {
         assertThat(attachment.getFileName(), equalTo("file.pdf"));
         assertThat(attachment.getFileExtension(), equalTo("pdf"));
         assertThat(attachment.getFileData(), equalTo(fileData));
+    }
+
+    @Test
+    public void shouldConvertFeesAsDescription() {
+
+        final String paymentReference = "FCO-12345";
+        final String total = "0.50";
+
+        Form form = new FormBuilder()
+                .withFees(new Fees(paymentReference, new BigDecimal(total)))
+                .build();
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+
+        String description = application.getDescription();
+
+        assertThat(description, equalTo(
+                "\n" +
+                        "Amount paid: £" + total + "\n" +
+                        "Payment reference: " + paymentReference
+        ));
     }
 }
