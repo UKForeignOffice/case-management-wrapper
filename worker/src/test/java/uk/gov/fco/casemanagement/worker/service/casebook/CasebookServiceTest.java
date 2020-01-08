@@ -76,7 +76,7 @@ public class CasebookServiceTest {
         assertThat(headers, notNullValue());
         assertThat(headers.getAccept(), equalTo(ImmutableList.of(MediaType.APPLICATION_JSON)));
         assertThat(headers.getContentType(), equalTo(MediaType.APPLICATION_JSON_UTF8));
-        assertThat(headers.get("hash"), equalTo(ImmutableList.of("0BBC38498FE4E00EE5937AD9A8F37233FCEE6103F9FDB07CB686355435FFBFFFD29F6D6FE5DC82115B58FA654F102CFA41AC46DBC1A7BB5B3DC6EE03F106DC9A")));
+        assertThat(headers.get("hash"), equalTo(ImmutableList.of("7031558C285C8201A1CA295CA67105809493C6E4D623338FF225E9EA1BEA3623D472AB4620A07CE9F93EBBE3D84CC5AE3FFFC0D691E56502F2A77CAA65BEA906")));
     }
 
     @Test
