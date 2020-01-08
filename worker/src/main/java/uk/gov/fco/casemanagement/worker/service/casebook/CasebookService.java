@@ -108,14 +108,14 @@ public class CasebookService {
      * from JSON configuration.
      */
     public @NonNull List<FeeService> getFeeServices(String post, String caseType, String summary) {
-
-        InputStream input = getClass().getResourceAsStream("/fee-services/" + getKey(post, caseType, summary) + ".json");
-
-        if (input != null) {
-            try {
-                return objectMapper.readValue(input, new TypeReference<List<FeeService>>(){});
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (post != null && caseType != null && summary != null) {
+            InputStream input = getClass().getResourceAsStream("/fee-services/" + getKey(post, caseType, summary) + ".json");
+            if (input != null) {
+                try {
+                    return objectMapper.readValue(input, new TypeReference<List<FeeService>>(){});
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return Collections.emptyList();
