@@ -1,11 +1,13 @@
 package uk.gov.fco.casemanagement.worker.service.casebook;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -14,14 +16,20 @@ import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.config.CasebookProperties;
 import uk.gov.fco.casemanagement.worker.service.CasebookServiceException;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.CreateCaseResponse;
+import uk.gov.fco.casemanagement.worker.service.casebook.domain.FeeService;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.NotarialApplication;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -55,7 +63,7 @@ public class CasebookService {
     public String createCase(@NonNull Instant submittedAt, @NonNull Form form) throws CasebookServiceException {
         log.debug("Creating case from {}", form);
 
-        NotarialApplication notarialApplication = new ApplicationConverter(documentUploadService)
+        NotarialApplication notarialApplication = new ApplicationConverter(this, documentUploadService)
                 .convert(form);
 
         notarialApplication.setTimestamp(submittedAt.toEpochMilli());
@@ -93,6 +101,30 @@ public class CasebookService {
         } catch (RestClientException e) {
             throw new CasebookServiceException("Error sending form to casebook", e);
         }
+    }
+
+    /**
+     * Ideally this is a service that connects to CaseBook, hence put here. For now we load FeeServices
+     * from JSON configuration.
+     */
+    public @NonNull List<FeeService> getFeeServices(String post, String caseType, String summary) {
+
+        InputStream input = getClass().getResourceAsStream("/fee-services/" + getKey(post, caseType, summary) + ".json");
+
+        if (input != null) {
+            try {
+                return objectMapper.readValue(input, new TypeReference<List<FeeService>>(){});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    private String getKey(String post, String caseType, String summary) {
+        return String.join("-",
+                post.toLowerCase().replaceAll("\\s", "-"),
+                caseType.toLowerCase().replaceAll("\\s", "-"));
     }
 
     private String createHmac(String requestBody, String secret) throws NoSuchAlgorithmException, InvalidKeyException {

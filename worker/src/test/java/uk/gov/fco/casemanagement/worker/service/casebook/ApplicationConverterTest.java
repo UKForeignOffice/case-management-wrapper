@@ -1,5 +1,6 @@
 package uk.gov.fco.casemanagement.worker.service.casebook;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
@@ -13,11 +14,14 @@ import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadSer
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -28,6 +32,9 @@ public class ApplicationConverterTest {
 
     @Mock
     private DocumentUploadService documentUploadService;
+
+    @Mock
+    private CasebookService casebookService;
 
     @Before
     public void setup() {
@@ -258,5 +265,54 @@ public class ApplicationConverterTest {
                         "Amount paid: £" + total + "\n" +
                         "Payment reference: " + paymentReference
         ));
+    }
+
+    @Test
+    public void shouldConvertFeeServices() {
+
+        final String post = "post";
+        final String caseType = "caseType";
+        final String summary = "summary";
+        final String partnerName = "partnerName";
+        final String feeServiceName = "feeServiceName";
+
+        Form form = new FormBuilder()
+                .withMetadata("post", post)
+                .withMetadata("caseType", caseType)
+                .withMetadata("summary", summary)
+                .withQuestion("partnerName", partnerName)
+                .build();
+
+        when(casebookService.getFeeServices(eq(post), eq(caseType), eq(summary))).thenReturn(ImmutableList.of(
+            new FeeServiceBuilder()
+                .withName(feeServiceName)
+                .withField("thailandAffirmationPartnersName")
+                .build()
+        ));
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+        assertThat(application.getFeeServices(), notNullValue());
+        assertThat(application.getFeeServices().size(), is(1));
+
+        FeeService feeService = application.getFeeServices().get(0);
+
+        assertThat(feeService.getName(), equalTo(feeServiceName));
+
+        assertFieldEquals(feeService.getFields(), "thailandAffirmationPartnersName", partnerName);
+    }
+
+    private void assertFieldEquals(List<Field> fields, String fieldName, String value) {
+        Optional<Field> possibleField = fields.stream()
+                .filter(f -> f.getFieldName().equals(fieldName))
+                .findFirst();
+
+        if (possibleField.isPresent()) {
+            assertThat(possibleField.get().getValue(), equalTo(value));
+        } else {
+            fail("No field found named " + fieldName);
+        }
     }
 }

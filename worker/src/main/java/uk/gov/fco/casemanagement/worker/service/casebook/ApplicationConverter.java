@@ -2,25 +2,23 @@ package uk.gov.fco.casemanagement.worker.service.casebook;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.core.convert.converter.Converter;
 import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Form;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.Address;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.Applicant;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.Attachment;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.NotarialApplication;
+import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadServiceException;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -33,19 +31,42 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
     private static final BigDecimal ONE_HUNDRED = new BigDecimal("100");
 
+    private static final Properties APPLICATION_PROPERTIES = new Properties() {{
+        try {
+            load(ApplicationConverter.class.getResourceAsStream("/mappings/application.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }};
+
+    private static final Properties FIELD_PROPERTIES = new Properties() {{
+        try {
+            load(ApplicationConverter.class.getResourceAsStream("/mappings/fields.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }};
+
+    private CasebookService casebookService;
+
     private DocumentUploadService documentUploadService;
 
-    public ApplicationConverter(@NonNull DocumentUploadService documentUploadService) {
+    public ApplicationConverter(@NonNull CasebookService casebookService, @NonNull DocumentUploadService documentUploadService) {
+        this.casebookService = casebookService;
         this.documentUploadService = documentUploadService;
     }
 
     @Override
-    public NotarialApplication convert(Form source) {
+    public @NonNull NotarialApplication convert(Form source) {
 
         Map<String, Object> properties = source.getAnswers();
 
-        Applicant applicant = convertApplicant(properties);
-        uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = convertApplication(properties);
+        NotarialApplication notarialApplication = new NotarialApplication();
+        setProperties(properties, notarialApplication);
+
+        uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = notarialApplication.getApplication();
+
+        applyFeeServices(properties, application);
 
         StringBuilder description = new StringBuilder();
 
@@ -102,88 +123,60 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
         application.setDescription(description.toString());
 
-        return new NotarialApplication(
-                applicant,
-                application
-        );
+        return notarialApplication;
     }
 
-    private uk.gov.fco.casemanagement.worker.service.casebook.domain.Application convertApplication(Map<String, Object> properties) {
-        uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = new uk.gov.fco.casemanagement.worker.service.casebook.domain.Application();
-        setAndRemoveStringValue(properties, application::setCaseType, "casetype");
-        setAndRemoveStringValue(properties, application::setCustomerInsightConsent, "customerinsightconsent");
-        setAndRemoveStringValue(properties, application::setMarriageCategory, "marriagecategory");
-        setAndRemoveStringValue(properties, application::setPost, "post");
-        setAndRemoveStringValue(properties, application::setReasonForBeingOverseas, "reasonforbeingoverseas");
-        setAndRemoveStringValue(properties, application::setSummary, "summary");
+    private void applyFeeServices(Map<String, Object> properties, Application application) {
 
-        return application;
-    }
+        List<FeeService> feeServices = casebookService.getFeeServices(application.getPost(), application.getCaseType(),
+                application.getSummary());
 
-    private Applicant convertApplicant(Map<String, Object> properties) {
-        Address address = new Address();
-        setAndRemoveStringValue(properties, address::setCompanyName, "companyname");
-        setAndRemoveStringValue(properties, address::setCountry, "country");
-        setAndRemoveStringValue(properties, address::setDistrict, "district");
-        setAndRemoveStringValue(properties, address::setFlatNumber, "flatnumber");
-        setAndRemoveStringValue(properties, address::setHouseNumber, "housenumber");
-        setAndRemoveStringValue(properties, address::setPostcode, "postcode");
-        setAndRemoveStringValue(properties, address::setPremises, "premises");
-        setAndRemoveStringValue(properties, address::setRegion, "region");
-        setAndRemoveStringValue(properties, address::setStreet, "street");
-        setAndRemoveStringValue(properties, address::setTown, "town");
+        application.setFeeServices(feeServices);
 
-        Applicant applicant = new Applicant();
-        setAndRemoveStringValue(properties, applicant::setCityOfBirth, "cityofbirth");
-        setAndRemoveStringValue(properties, applicant::setCountryOfBirth, "countryofbirth");
-        setAndRemoveDateValue(properties, applicant::setDateOfBirth, "dateofbirth");
-        setAndRemoveStringValue(properties, applicant::setEmail, "emailaddress");
-        setAndRemoveStringValue(properties, applicant::setEthnicity, "ethnicity");
-        setAndRemoveStringValue(properties, applicant::setEveningTelephone, "eveningtelephone");
-        setAndRemoveStringValue(properties, applicant::setForenames, "firstname", "middlename", "forenames");
-        setAndRemoveStringValue(properties, applicant::setLanguage, "language");
-        setAndRemoveStringValue(properties, applicant::setMobileTelephone, "mobiletelephone");
-        setAndRemoveStringValue(properties, applicant::setNationality, "nationality");
-        setAndRemoveStringValue(properties, applicant::setPrimaryTelephone, "primarytelephone");
-        setAndRemoveStringValue(properties, applicant::setReference, "reference");
-        setAndRemoveStringValue(properties, applicant::setSecondNationality, "secondnationality");
-        setAndRemoveStringValue(properties, applicant::setSurname, "lastname", "surname");
-        setAndRemoveStringValue(properties, applicant::setTitle, "title");
-
-        applicant.setAddress(address);
-
-        return applicant;
-    }
-
-    private void setAndRemoveStringValue(Map<String, Object> properties, SetterFunction setter, String... keys) {
-        StringBuilder value = new StringBuilder();
-        for (String key : keys) {
-            if (properties.containsKey(key)) {
-                String answer = (String) properties.remove(key);
-                if (isNotBlank(answer)) {
-                    if (value.length() > 0) {
-                        value.append(" ");
-                    }
-                    value.append(answer);
+        for (FeeService feeService : feeServices) {
+            for (Field field : feeService.getFields()) {
+                if (FIELD_PROPERTIES.containsKey(field.getFieldName())) {
+                    String[] values = FIELD_PROPERTIES.getProperty(field.getFieldName(), "").split(",");
+                    String value = formatAndRemoveValue(properties, values);
+                    field.setValue(value);
                 }
             }
         }
-        if (value.length() > 0) {
-            setter.call(value.toString());
-        }
     }
 
-    private void setAndRemoveDateValue(Map<String, Object> properties, SetterFunction setter, String key) {
-        if (properties.containsKey(key)) {
-            Date answer = (Date) properties.remove(key);
-            if (answer != null) {
-                setter.call(DATE_FORMAT.format(answer));
+    private void setProperties(Map<String, Object> properties, NotarialApplication notarialApplication) {
+        BeanWrapper wrappedApplication = new BeanWrapperImpl(notarialApplication);
+
+        for (String property : APPLICATION_PROPERTIES.stringPropertyNames()) {
+            String[] valueKeys = APPLICATION_PROPERTIES.getProperty(property, "").split(",");
+            String value = formatAndRemoveValue(properties, valueKeys);
+
+            if (value.length() > 0) {
+                wrappedApplication.setPropertyValue(property, value);
             }
         }
     }
 
-    @FunctionalInterface
-    interface SetterFunction {
-        void call(String value);
+    private String formatAndRemoveValue(Map<String, Object> properties, String[] keys) {
+        StringBuilder builder = new StringBuilder();
+        for (String key : keys) {
+            String normalisedKey = key.toLowerCase();
+            if (properties.containsKey(normalisedKey)) {
+                Object value = properties.remove(normalisedKey);
+                String answer;
+                if (value instanceof Date) {
+                    answer = DATE_FORMAT.format((Date) value);
+                } else {
+                    answer = value.toString();
+                }
+                if (isNotBlank(answer)) {
+                    if (builder.length() > 0) {
+                        builder.append(" ");
+                    }
+                    builder.append(answer);
+                }
+            }
+        }
+        return builder.toString();
     }
 }
