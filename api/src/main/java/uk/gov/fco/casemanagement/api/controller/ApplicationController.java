@@ -84,6 +84,9 @@ public class ApplicationController {
             } catch (MessageQueueTimeoutException e) {
                 log.warn("Message queue timeout waiting for response", e);
                 output.setResult(ResponseEntity.accepted().build());
+            } catch (Exception e) {
+                log.error("Error submitting message to queue", e);
+                output.setErrorResult(e);
             }
         });
 
