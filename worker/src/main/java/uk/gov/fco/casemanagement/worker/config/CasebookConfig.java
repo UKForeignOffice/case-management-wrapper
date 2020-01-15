@@ -49,12 +49,14 @@ public class CasebookConfig {
                 PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodePKCS8Key(properties.getClientKey()));
                 PrivateKey key = KeyFactory.getInstance("RSA").generatePrivate(keySpec);
 
+                char[] password = "password".toCharArray();
+
                 KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
                 keyStore.load(null);
-                keyStore.setKeyEntry("key", key, null, new Certificate[]{certificate});
+                keyStore.setKeyEntry("key", key, password, new Certificate[]{certificate});
 
                 SSLContext sslContext = SSLContextBuilder.create()
-                        .loadKeyMaterial(keyStore, null)
+                        .loadKeyMaterial(keyStore, password)
                         .loadTrustMaterial((chain, authType) -> true)
                         .build();
 
