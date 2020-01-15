@@ -46,7 +46,7 @@ public class CasebookConfig {
                 X509Certificate certificate = (X509Certificate) CertificateFactory.getInstance("X.509")
                         .generateCertificate(in);
 
-                PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(properties.getClientKey()));
+                PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodePKCS8Key(properties.getClientKey()));
                 PrivateKey key = KeyFactory.getInstance("RSA").generatePrivate(keySpec);
 
                 KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -68,5 +68,11 @@ public class CasebookConfig {
             }
         }
         return new RestTemplate(requestFactory);
+    }
+
+    private byte[] decodePKCS8Key(String key) {
+        String base64Data = key.replaceFirst("-----BEGIN PRIVATE KEY-----\n", "")
+                .replaceFirst("\n-----END PRIVATE KEY-----", "");
+        return Base64.decodeBase64(base64Data);
     }
 }

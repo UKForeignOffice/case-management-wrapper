@@ -12,7 +12,6 @@ bootJar {
 dependencies {
     compile project(':common')
 
-    compile 'org.springdoc:springdoc-openapi-ui:1.1.39'
     compile 'org.springframework.boot:spring-boot-starter-jersey'
     compile 'org.springframework.boot:spring-boot-starter-web'
 

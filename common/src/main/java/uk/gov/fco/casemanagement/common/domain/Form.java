@@ -3,6 +3,7 @@ package uk.gov.fco.casemanagement.common.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.NonNull;
 import lombok.ToString;
 
@@ -15,6 +16,10 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 
 @ToString
+@Schema(
+        name = "Form",
+        description = "POJO that represents a form."
+)
 public class Form {
 
     private String id;
@@ -24,6 +29,8 @@ public class Form {
     private Fees fees;
 
     private List<Question> questions = new ArrayList<>();
+
+    public Map<String, String> metadata = new HashMap<>();
 
     @JsonCreator
     public Form(@JsonProperty("questions") @NonNull List<Question> questions) {
@@ -37,8 +44,6 @@ public class Form {
     public String getName() {
         return name;
     }
-
-    public Map<String, String> metadata = new HashMap<>();
 
     public Fees getFees() {
         return fees;

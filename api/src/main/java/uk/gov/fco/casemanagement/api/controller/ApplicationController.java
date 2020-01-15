@@ -51,7 +51,10 @@ public class ApplicationController {
                                     implementation = FormSubmissionResult.class))),
             @ApiResponse(
                     description = "Form data has been accepted but case creation is delayed. No need to resubmit.",
-                    responseCode = "202")
+                    responseCode = "202"),
+            @ApiResponse(
+                    description = "An internal error occurred. Form will need to be resubmitted.",
+                    responseCode = "500")
     })
     @Operation(
             summary = "Submit form",
