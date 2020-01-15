@@ -23,6 +23,8 @@ message-queue:
 casebook:
   url: ${CASEBOOK_URL:url}
   key: ${CASEBOOK_KEY:key}
+  client-certificate: ${CASEBOOK_CLIENT_CERTIFICATE:}
+  client-key: ${CASEBOOK_CLIENT_KEY:}
 
 ---
 

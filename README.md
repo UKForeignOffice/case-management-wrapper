@@ -22,3 +22,5 @@ MESSAGE_QUEUE_ENDPOINT | http://localhost:9324 | SQS endpoint
 MESSAGE_QUEUE_URL | http://localhost:9324/queue/default | SQS message queue
 CASEBOOK_URL | | URL of CASEBOOK service
 CASEBOOK_KEY | | Secret key for CASEBOOK authentication
+CASEBOOK_CLIENT_CERTIFICATE | | Client certificate for signing requests to CASEBOOK
+CASEBOOK_CLIENT_KEY | | Client key for signing requests to CASEBOOK
