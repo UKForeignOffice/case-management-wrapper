@@ -151,7 +151,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
             String[] valueKeys = APPLICATION_PROPERTIES.getProperty(property, "").split(",");
             String value = formatAndRemoveValue(properties, valueKeys);
 
-            if (value.length() > 0) {
+            if (value != null) {
                 wrappedApplication.setPropertyValue(property, value);
             }
         }
