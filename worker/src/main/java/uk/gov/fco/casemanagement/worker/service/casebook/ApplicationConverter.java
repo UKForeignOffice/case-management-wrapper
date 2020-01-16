@@ -177,6 +177,6 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                 }
             }
         }
-        return builder.toString();
+        return builder.length() > 0 ? builder.toString() : null;
     }
 }

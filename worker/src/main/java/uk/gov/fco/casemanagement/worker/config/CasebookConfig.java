@@ -13,7 +13,6 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
-import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.KeyFactory;
@@ -57,7 +56,6 @@ public class CasebookConfig {
 
                 SSLContext sslContext = SSLContextBuilder.create()
                         .loadKeyMaterial(keyStore, password)
-                        .loadTrustMaterial((chain, authType) -> true)
                         .build();
 
                 HttpClient httpClient = HttpClients.custom()
