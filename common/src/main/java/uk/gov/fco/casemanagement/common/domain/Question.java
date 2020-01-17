@@ -2,6 +2,7 @@ package uk.gov.fco.casemanagement.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.NonNull;
 
 import java.util.ArrayList;
@@ -11,10 +12,13 @@ import static java.util.Collections.unmodifiableList;
 
 public class Question {
 
+    @Schema(name = "id", example = "/uk-passport")
     private String id;
 
+    @Schema(example = "checkBeforeYouStart")
     private String category;
 
+    @Schema(example = "Do you have a UK passport?")
     private String question;
 
     private List<Field> fields = new ArrayList<>();

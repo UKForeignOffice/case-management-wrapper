@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.api.domain.FormSubmissionResult;
 import uk.gov.fco.casemanagement.api.service.MessageQueueService;
 import uk.gov.fco.casemanagement.api.service.MessageQueueTimeoutException;
-import uk.gov.fco.casemanagement.common.domain.Form;
 
 import java.util.concurrent.ForkJoinPool;
 
@@ -46,15 +46,15 @@ public class ApplicationController {
                     responseCode = "200",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(
-                                    type = "object",
-                                    implementation = FormSubmissionResult.class))),
+                            schema = @Schema(implementation = FormSubmissionResult.class))),
             @ApiResponse(
                     description = "Form data has been accepted but case creation is delayed. No need to resubmit.",
-                    responseCode = "202"),
+                    responseCode = "202",
+                    content = @Content),
             @ApiResponse(
                     description = "An internal error occurred. Form will need to be resubmitted.",
-                    responseCode = "500")
+                    responseCode = "500",
+                    content = @Content)
     })
     @Operation(
             summary = "Submit form",
@@ -62,13 +62,12 @@ public class ApplicationController {
     )
     public DeferredResult<ResponseEntity<?>> submitForm(
             @Parameter(
-                    name = "form",
                     description = "The form to submit",
                     required = true,
                     content = @Content(
-                            schema = @Schema(
-                                    type = "object",
-                                    implementation = Form.class)))
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Form.class))
+            )
             @RequestBody Form form) {
         log.debug("Submitting application form {}", form);
 

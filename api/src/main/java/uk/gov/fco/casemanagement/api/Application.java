@@ -22,7 +22,8 @@ public class Application {
         return new OpenAPI()
                 .info(new Info().title("Case Management API")
                         .version(getClass().getPackage().getImplementationVersion())
-                        .description("")
+                        .description("A generic API for Case Management, intended to act as a wrapper around a " +
+                                "downstream Case Management System.\n\nThe current downstream system is CASEBOOK.")
                         .license(new License()
                                 .name("MIT")
                                 .url("https://raw.githubusercontent.com/CautionYourBlast/case-management/master/LICENSE")));

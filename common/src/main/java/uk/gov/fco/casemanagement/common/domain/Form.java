@@ -22,8 +22,10 @@ import static java.util.Collections.unmodifiableMap;
 )
 public class Form {
 
+    @Schema(name = "id", example = "thailand")
     private String id;
 
+    @Schema(name = "name", example = "Prove your eligibility, Thailand")
     private String name;
 
     private Fees fees;

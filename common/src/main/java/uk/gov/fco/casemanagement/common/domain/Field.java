@@ -2,6 +2,7 @@ package uk.gov.fco.casemanagement.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.NonNull;
 
 import java.text.DateFormat;
@@ -16,6 +17,7 @@ public class Field {
 
     private String id;
 
+    @Schema(name = "type", example = "text")
     private String type;
 
     private String title;
