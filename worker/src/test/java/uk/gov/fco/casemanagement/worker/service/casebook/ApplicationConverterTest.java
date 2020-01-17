@@ -21,6 +21,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -302,6 +303,34 @@ public class ApplicationConverterTest {
         assertThat(feeService.getName(), equalTo(feeServiceName));
 
         assertFieldEquals(feeService.getFields(), "thailandAffirmationPartnersName", partnerName);
+    }
+
+    @Test
+    public void shouldConvertExpression() {
+
+        Form form = new FormBuilder()
+                .withQuestion("declaration", "Yes")
+                .build();
+
+        when(casebookService.getFeeServices(any(), any(), any())).thenReturn(ImmutableList.of(
+                new FeeServiceBuilder()
+                        .withName("name")
+                        .withField("notarialDeclaration")
+                        .withField("notarialConsentMethodOfContact")
+                        .build()
+        ));
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+        assertThat(application.getFeeServices(), notNullValue());
+        assertThat(application.getFeeServices().size(), is(1));
+
+        FeeService feeService = application.getFeeServices().get(0);
+
+        assertFieldEquals(feeService.getFields(), "notarialDeclaration", "true");
+        assertFieldEquals(feeService.getFields(), "notarialConsentMethodOfContact", "Not set");
     }
 
     private void assertFieldEquals(List<Field> fields, String fieldName, String value) {
