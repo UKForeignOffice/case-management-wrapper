@@ -3,7 +3,9 @@ package uk.gov.fco.casemanagement.worker.handler;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSResponder;
 import com.amazonaws.services.sqs.MessageContent;
-import com.amazonaws.services.sqs.model.*;
+import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.util.SQSMessageConsumer;
+import com.amazonaws.services.sqs.util.SQSMessageConsumerBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +18,6 @@ import uk.gov.fco.casemanagement.worker.service.casebook.CasebookService;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.List;
 
 /**
  * MessageReceiver is responsible for receiving and processing messages. A message
@@ -41,6 +42,8 @@ public class MessageReceiver {
 
     private ObjectMapper objectMapper;
 
+    private SQSMessageConsumer consumer;
+
     @Autowired
     public MessageReceiver(@NonNull AmazonSQS amazonSQS, @NonNull AmazonSQSResponder amazonSQSResponder,
                            @NonNull MessageQueueProperties properties, @NonNull CasebookService casebookService,
@@ -52,17 +55,21 @@ public class MessageReceiver {
         this.objectMapper = objectMapper;
     }
 
-    public void receiveMessage() {
-        log.trace("Polling for new message");
-        List<Message> messages = amazonSQS.receiveMessage(new ReceiveMessageRequest()
-                .withMessageAttributeNames("ResponseQueueUrl")
-                .withAttributeNames(QueueAttributeName.All)
-                .withQueueUrl(properties.getQueueUrl())
-                .withMaxNumberOfMessages(MAX_MESSAGES)
-                .withWaitTimeSeconds(WAIT_TIMOUT))
-                .getMessages();
+    public void start() {
+        stop();
 
-        messages.forEach(this::processMessage);
+        consumer = SQSMessageConsumerBuilder.standard()
+                .withAmazonSQS(amazonSQS)
+                .withQueueUrl(properties.getQueueUrl())
+                .withConsumer(this::processMessage).build();
+        consumer.start();
+    }
+
+    public void stop() {
+        if (consumer != null) {
+            consumer.shutdown();
+            consumer = null;
+        }
     }
 
     private void processMessage(Message message) {
@@ -88,15 +95,7 @@ public class MessageReceiver {
 
         MessageContent requestMessage = MessageContent.fromMessage(message);
 
-        if (amazonSQSResponder.isResponseMessageRequested(requestMessage)) {
-            log.debug("Responding with {}", reference);
-            amazonSQSResponder.sendResponseMessage(requestMessage, new MessageContent(reference));
-        }
-
-        DeleteMessageResult result = amazonSQS.deleteMessage(new DeleteMessageRequest()
-                .withQueueUrl(properties.getQueueUrl())
-                .withReceiptHandle(message.getReceiptHandle()));
-
-        log.debug("Delete message result {}", result);
+        log.debug("Responding with {}", reference);
+        amazonSQSResponder.sendResponseMessage(requestMessage, new MessageContent(reference));
     }
 }

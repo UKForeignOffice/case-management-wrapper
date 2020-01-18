@@ -8,7 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import uk.gov.fco.casemanagement.worker.handler.MessageReceiver;
-import uk.gov.fco.casemanagement.worker.handler.MessageReceiverException;
 
 @SpringBootApplication
 @Slf4j
@@ -22,8 +21,6 @@ public class Application implements CommandLineRunner {
 
     private MessageReceiver messageReceiver;
 
-    private boolean running = true;
-
     @Autowired
     public Application(@NonNull MessageReceiver messageReceiver) {
         this.messageReceiver = messageReceiver;
@@ -33,15 +30,9 @@ public class Application implements CommandLineRunner {
     public void run(String... args) {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             log.info("Shutting down");
-            running = false;
+            messageReceiver.stop();
         }));
 
-        while (running) {
-            try {
-                messageReceiver.receiveMessage();
-            } catch (MessageReceiverException e) {
-                log.error("Error receiving message", e);
-            }
-        }
+        messageReceiver.start();
     }
 }
