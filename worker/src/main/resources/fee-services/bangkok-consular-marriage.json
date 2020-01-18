@@ -43,10 +43,6 @@
         "fieldListName": "thailandAffirmationPersonalDetails"
       },
       {
-        "fieldName": "thailandAffirmationPartnersPassportNo",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
         "fieldName": "thailandAffirmationPlaceOfBirth",
         "fieldListName": "thailandAffirmationPersonalDetails"
       },
