@@ -57,6 +57,8 @@ public class MessageReceiverTest {
         Message message = new Message();
         message.setBody("{\"id\": \"" + formId + "\", \"questions\": []}");
 
+        when(casebookService.createCase(any(), any())).thenReturn("reference");
+
         messageReceiver.processMessage(message);
 
         ArgumentCaptor<Form> formArgumentCaptor = ArgumentCaptor.forClass(Form.class);
