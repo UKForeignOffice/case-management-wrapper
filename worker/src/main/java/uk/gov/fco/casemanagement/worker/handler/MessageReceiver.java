@@ -72,7 +72,7 @@ public class MessageReceiver {
         }
     }
 
-    private void processMessage(Message message) {
+    void processMessage(Message message) {
         log.debug("Processing message {}", message);
 
         Form form;

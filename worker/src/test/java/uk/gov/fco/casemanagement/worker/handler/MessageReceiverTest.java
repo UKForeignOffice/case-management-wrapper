@@ -3,9 +3,10 @@ package uk.gov.fco.casemanagement.worker.handler;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSResponder;
 import com.amazonaws.services.sqs.MessageContent;
-import com.amazonaws.services.sqs.model.*;
+import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+import com.amazonaws.services.sqs.model.ReceiveMessageResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,7 +17,6 @@ import uk.gov.fco.casemanagement.worker.service.casebook.CasebookService;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -51,39 +51,13 @@ public class MessageReceiverTest {
     }
 
     @Test
-    public void shouldPollForMessagesWithCorrectArguments() {
-        final String queueURL = "http://example.org";
-        final Integer maxNumberOfMessages = 1;
-
-        when(properties.getQueueUrl()).thenReturn(queueURL);
-
-        messageReceiver.receiveMessage();
-
-        ArgumentCaptor<ReceiveMessageRequest> receiveMessageRequestArgumentCaptor = ArgumentCaptor.forClass(ReceiveMessageRequest.class);
-        verify(amazonSQS).receiveMessage(receiveMessageRequestArgumentCaptor.capture());
-
-        ReceiveMessageRequest receiveMessageRequest = receiveMessageRequestArgumentCaptor.getValue();
-
-        assertThat(receiveMessageRequest, notNullValue());
-        assertThat(receiveMessageRequest.getQueueUrl(), equalTo(queueURL));
-        assertThat(receiveMessageRequest.getMaxNumberOfMessages(), equalTo(maxNumberOfMessages));
-        assertThat(receiveMessageRequest.getAttributeNames(), containsInAnyOrder(QueueAttributeName.All.toString()));
-        assertThat(receiveMessageRequest.getMessageAttributeNames(), containsInAnyOrder("ResponseQueueUrl"));
-    }
-
-    @Test
     public void shouldSendApplicationToCasebook() throws Exception {
         final String formId = "id";
 
         Message message = new Message();
         message.setBody("{\"id\": \"" + formId + "\", \"questions\": []}");
 
-        ReceiveMessageResult receiveMessageResult = new ReceiveMessageResult();
-        receiveMessageResult.setMessages(ImmutableList.of(message));
-
-        when(amazonSQS.receiveMessage((ReceiveMessageRequest) any())).thenReturn(receiveMessageResult);
-
-        messageReceiver.receiveMessage();
+        messageReceiver.processMessage(message);
 
         ArgumentCaptor<Form> formArgumentCaptor = ArgumentCaptor.forClass(Form.class);
         verify(casebookService).createCase(any(), formArgumentCaptor.capture());
@@ -101,14 +75,9 @@ public class MessageReceiverTest {
         Message message = new Message();
         message.setBody("{\"id\": \"id\", \"questions\": []}");
 
-        ReceiveMessageResult receiveMessageResult = new ReceiveMessageResult();
-        receiveMessageResult.setMessages(ImmutableList.of(message));
-
-        when(amazonSQS.receiveMessage((ReceiveMessageRequest) any())).thenReturn(receiveMessageResult);
         when(casebookService.createCase(any(), any())).thenReturn(reference);
-        when(amazonSQSResponder.isResponseMessageRequested(any())).thenReturn(true);
 
-        messageReceiver.receiveMessage();
+        messageReceiver.processMessage(message);
 
         ArgumentCaptor<MessageContent> responseCaptor = ArgumentCaptor.forClass(MessageContent.class);
         verify(amazonSQSResponder).sendResponseMessage(any(), responseCaptor.capture());
@@ -117,32 +86,5 @@ public class MessageReceiverTest {
 
         assertThat(response, notNullValue());
         assertThat(response.getMessageBody(), equalTo(reference));
-    }
-
-    @Test
-    public void shouldDeleteMessage() {
-        final String queueUrl = "http://example.org";
-        final String receiptHandle = "receipt-handle";
-
-        Message message = new Message();
-        message.setReceiptHandle(receiptHandle);
-        message.setBody("{\"id\": \"id\", \"questions\": []}");
-
-        ReceiveMessageResult receiveMessageResult = new ReceiveMessageResult();
-        receiveMessageResult.setMessages(ImmutableList.of(message));
-
-        when(amazonSQS.receiveMessage((ReceiveMessageRequest) any())).thenReturn(receiveMessageResult);
-        when(properties.getQueueUrl()).thenReturn(queueUrl);
-
-        messageReceiver.receiveMessage();
-
-        ArgumentCaptor<DeleteMessageRequest> deleteMessageRequestArgumentCaptor = ArgumentCaptor.forClass(DeleteMessageRequest.class);
-        verify(amazonSQS).deleteMessage(deleteMessageRequestArgumentCaptor.capture());
-
-        DeleteMessageRequest deleteMessageRequest = deleteMessageRequestArgumentCaptor.getValue();
-
-        assertThat(deleteMessageRequest, notNullValue());
-        assertThat(deleteMessageRequest.getQueueUrl(), equalTo(queueUrl));
-        assertThat(deleteMessageRequest.getReceiptHandle(), equalTo(receiptHandle));
     }
 }
