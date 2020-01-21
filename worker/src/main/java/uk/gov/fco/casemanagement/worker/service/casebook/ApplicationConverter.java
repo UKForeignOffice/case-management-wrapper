@@ -5,11 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
@@ -143,7 +141,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                 if (FIELD_PROPERTIES.containsKey(field.getFieldName())) {
                     String expression = FIELD_PROPERTIES.getProperty(field.getFieldName());
                     if (expression != null) {
-                        String value = formatValue(properties, expression);
+                        String value = formatAndRemoveValue(properties, expression);
                         if (value != null) {
                             field.setValue(value);
                         }
@@ -159,7 +157,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         for (String property : APPLICATION_PROPERTIES.stringPropertyNames()) {
             String expression = APPLICATION_PROPERTIES.getProperty(property);
             if (expression != null) {
-                String value = formatValue(properties, expression);
+                String value = formatAndRemoveValue(properties, expression);
                 if (value != null) {
                     wrappedApplication.setPropertyValue(property, value);
                 }
@@ -167,7 +165,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         }
     }
 
-    private String formatValue(Map<String, Object> properties, String expression) {
+    private String formatAndRemoveValue(Map<String, Object> properties, String expression) {
         if (expression.startsWith("#{")) {
             ExpressionParser parser = new SpelExpressionParser();
             Expression exp = parser.parseExpression(expression.substring(2, expression.length() - 1));
@@ -183,7 +181,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         for (String key : keys) {
             String normalisedKey = key.toLowerCase();
             if (properties.containsKey(normalisedKey)) {
-                Object value = properties.get(normalisedKey);
+                Object value = properties.remove(normalisedKey);
                 String answer;
                 if (value instanceof Date) {
                     answer = DATE_FORMAT.format((Date) value);

@@ -333,6 +333,42 @@ public class ApplicationConverterTest {
         assertFieldEquals(feeService.getFields(), "notarialConsentMethodOfContact", "Not set");
     }
 
+    @Test
+    public void shouldRemovePropertyUsingExpression() {
+
+        Form form = new FormBuilder()
+                .withQuestion("declaration", "Yes")
+                .build();
+
+        when(casebookService.getFeeServices(any(), any(), any())).thenReturn(ImmutableList.of(
+                new FeeServiceBuilder()
+                        .withName("name")
+                        .withField("notarialDeclaration")
+                        .build()
+        ));
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+        assertThat(application.getDescription(), equalTo(""));
+    }
+
+    @Test
+    public void shouldRemoveProperty() {
+
+        Form form = new FormBuilder()
+                .withQuestion("forenames", "Test")
+                .withQuestion("forDescription", "Yes")
+                .build();
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+        assertThat(application.getDescription(), equalTo("null\nforDescription: Yes\n\n"));
+    }
+
     private void assertFieldEquals(List<Field> fields, String fieldName, String value) {
         Optional<Field> possibleField = fields.stream()
                 .filter(f -> f.getFieldName().equals(fieldName))
