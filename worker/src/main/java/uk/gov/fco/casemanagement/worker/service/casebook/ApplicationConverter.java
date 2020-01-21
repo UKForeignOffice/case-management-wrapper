@@ -146,6 +146,11 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                             field.setValue(value);
                         }
                     }
+                } else {
+                    String value = formatAndRemoveValue(properties, field.getFieldName());
+                    if (value != null) {
+                        field.setValue(value);
+                    }
                 }
             }
         }

@@ -369,6 +369,27 @@ public class ApplicationConverterTest {
         assertThat(application.getDescription(), equalTo("null\nforDescription: Yes\n\n"));
     }
 
+    @Test
+    public void shouldDefaultToMappingFielfDirectlyToProperty() {
+
+        Form form = new FormBuilder()
+                .withQuestion("somethingUnmapped", "Test")
+                .build();
+
+        when(casebookService.getFeeServices(any(), any(), any())).thenReturn(ImmutableList.of(
+                new FeeServiceBuilder()
+                        .withName("name")
+                        .withField("somethingUnmapped")
+                        .build()
+        ));
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+        FeeService feeService = application.getFeeServices().get(0);
+
+        assertFieldEquals(feeService.getFields(), "somethingUnmapped", "Test");
+    }
+
     private void assertFieldEquals(List<Field> fields, String fieldName, String value) {
         Optional<Field> possibleField = fields.stream()
                 .filter(f -> f.getFieldName().equals(fieldName))
