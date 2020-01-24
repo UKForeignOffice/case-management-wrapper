@@ -140,14 +140,6 @@ jobs:
           at: .
 
       - run:
-          name: Checkout CI Support
-          command: git clone git@github.com:CautionYourBlast/ci-support.git
-
-      - run:
-          name: Install awscli
-          command: sudo pip install awscli
-
-      - run:
           name: Deploy
           command: |
             TAG=`cat api/tag.txt`
