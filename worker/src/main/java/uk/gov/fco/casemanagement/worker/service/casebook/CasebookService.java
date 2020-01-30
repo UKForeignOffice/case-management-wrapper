@@ -1,7 +1,6 @@
 package uk.gov.fco.casemanagement.worker.service.casebook;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +8,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.fco.casemanagement.common.domain.Form;
@@ -21,13 +21,14 @@ import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadSer
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -47,15 +48,19 @@ public class CasebookService {
 
     private ObjectMapper objectMapper;
 
+    private Map<String, FeeService> feeServices;
+
     @Autowired
     public CasebookService(@NonNull DocumentUploadService documentUploadService,
                            @NonNull RestTemplate restTemplate,
                            @NonNull CasebookProperties properties,
-                           @NonNull ObjectMapper objectMapper) {
+                           @NonNull ObjectMapper objectMapper,
+                           @NonNull Map<String, FeeService> feeServices) {
         this.documentUploadService = documentUploadService;
         this.restTemplate = restTemplate;
         this.properties = properties;
         this.objectMapper = objectMapper;
+        this.feeServices = feeServices;
     }
 
     public String createCase(@NonNull Instant submittedAt, @NonNull Form form) throws CasebookServiceException {
@@ -89,7 +94,7 @@ public class CasebookService {
             CreateCaseResponse response = responseEntity.getBody();
 
             if (response == null) {
-                throw new CasebookServiceException("No response received from casebook");
+                throw new CasebookServiceException("No response received from CASEBOOK");
             }
             return response.getApplicationReference();
         } catch (JsonProcessingException e) {
@@ -97,32 +102,12 @@ public class CasebookService {
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new CasebookServiceException("Error creating HMAC hash", e);
         } catch (RestClientException e) {
-            throw new CasebookServiceException("Error sending form to casebook", e);
-        }
-    }
-
-    /**
-     * Ideally this is a service that connects to CaseBook, hence put here. For now we load FeeServices
-     * from JSON configuration.
-     */
-    public @NonNull List<FeeService> getFeeServices(String post, String caseType, String summary) {
-        if (post != null && caseType != null && summary != null) {
-            InputStream input = getClass().getResourceAsStream("/fee-services/" + getKey(post, caseType, summary) + ".json");
-            if (input != null) {
-                try {
-                    return objectMapper.readValue(input, new TypeReference<List<FeeService>>(){});
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if (e instanceof HttpClientErrorException.UnprocessableEntity) {
+                log.error("Validation error response from CASEBOOK, body = {}",
+                        ((HttpClientErrorException.UnprocessableEntity) e).getResponseBodyAsString());
             }
+            throw new CasebookServiceException("Error sending form to CASEBOOK", e);
         }
-        return Collections.emptyList();
-    }
-
-    private String getKey(String post, String caseType, String summary) {
-        return String.join("-",
-                post.toLowerCase().replaceAll("\\s", "-"),
-                caseType.toLowerCase().replaceAll("\\s", "-"));
     }
 
     private String createHmac(String requestBody, String secret) throws NoSuchAlgorithmException, InvalidKeyException {
@@ -130,5 +115,18 @@ public class CasebookService {
         digest.init(new SecretKeySpec(secret.getBytes(), HMAC_ALGORITHM));
         digest.update(requestBody.getBytes());
         return Hex.encodeHexString(digest.doFinal(), false);
+    }
+
+    public @NonNull List<FeeService> getFeeServices(List<String> names) {
+        List<FeeService> relevantFeeServices = new ArrayList<>();
+        for (String name : names) {
+            FeeService feeService = feeServices.get(name);
+            if (feeService != null) {
+                relevantFeeServices.add(feeService);
+            } else {
+                log.info("No fee service found for name {}", name);
+            }
+        }
+        return relevantFeeServices;
     }
 }

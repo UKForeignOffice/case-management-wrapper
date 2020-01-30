@@ -271,20 +271,17 @@ public class ApplicationConverterTest {
     @Test
     public void shouldConvertFeeServices() {
 
-        final String post = "post";
-        final String caseType = "caseType";
-        final String summary = "summary";
         final String partnerName = "partnerName";
         final String feeServiceName = "feeServiceName";
 
         Form form = new FormBuilder()
-                .withMetadata("post", post)
-                .withMetadata("caseType", caseType)
-                .withMetadata("summary", summary)
                 .withQuestion("partnerName", partnerName)
+                .withFees(new FeesBuilder("ref")
+                    .withFeeDetail(feeServiceName, BigDecimal.TEN)
+                    .build())
                 .build();
 
-        when(casebookService.getFeeServices(eq(post), eq(caseType), eq(summary))).thenReturn(ImmutableList.of(
+        when(casebookService.getFeeServices(eq(ImmutableList.of(feeServiceName)))).thenReturn(ImmutableList.of(
             new FeeServiceBuilder()
                 .withName(feeServiceName)
                 .withField("thailandAffirmationPartnersName")
@@ -310,9 +307,10 @@ public class ApplicationConverterTest {
 
         Form form = new FormBuilder()
                 .withQuestion("declaration", "Yes")
+                .withFees(new FeesBuilder("ref").build())
                 .build();
 
-        when(casebookService.getFeeServices(any(), any(), any())).thenReturn(ImmutableList.of(
+        when(casebookService.getFeeServices(any())).thenReturn(ImmutableList.of(
                 new FeeServiceBuilder()
                         .withName("name")
                         .withField("notarialDeclaration")
@@ -338,9 +336,10 @@ public class ApplicationConverterTest {
 
         Form form = new FormBuilder()
                 .withQuestion("declaration", "Yes")
+                .withFees(new FeesBuilder("ref").build())
                 .build();
 
-        when(casebookService.getFeeServices(any(), any(), any())).thenReturn(ImmutableList.of(
+        when(casebookService.getFeeServices(any())).thenReturn(ImmutableList.of(
                 new FeeServiceBuilder()
                         .withName("name")
                         .withField("notarialDeclaration")
@@ -351,7 +350,7 @@ public class ApplicationConverterTest {
         Application application = notarialApplication.getApplication();
 
         assertThat(application, notNullValue());
-        assertThat(application.getDescription(), equalTo(""));
+        assertThat(application.getDescription(), equalTo("\nAmount paid: £0.00\nPayment reference: ref"));
     }
 
     @Test
@@ -374,9 +373,10 @@ public class ApplicationConverterTest {
 
         Form form = new FormBuilder()
                 .withQuestion("somethingUnmapped", "Test")
+                .withFees(new FeesBuilder("ref").build())
                 .build();
 
-        when(casebookService.getFeeServices(any(), any(), any())).thenReturn(ImmutableList.of(
+        when(casebookService.getFeeServices(any())).thenReturn(ImmutableList.of(
                 new FeeServiceBuilder()
                         .withName("name")
                         .withField("somethingUnmapped")

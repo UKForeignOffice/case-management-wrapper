@@ -1,0 +1,29 @@
+{
+  "name": "Certificate of Marriage (France)",
+  "fields": [
+    {
+      "fieldName": "franceMarriageFullNameAtBirth",
+      "fieldListName": "franceMarriage"
+    },
+    {
+      "fieldName": "franceMarriageTownOfBirth",
+      "fieldListName": "franceMarriage"
+    },
+    {
+      "fieldName": "franceMarriageCountryOfBirth",
+      "fieldListName": "franceMarriage"
+    },
+    {
+      "fieldName": "franceMarriageCountryOfBirthFrench",
+      "fieldListName": "franceMarriage"
+    },
+    {
+      "fieldName": "franceMarriageMaritalStatus",
+      "fieldListName": "franceMarriage"
+    },
+    {
+      "fieldName": "franceMarriageIssueDate",
+      "fieldListName": "franceMarriage"
+    }
+  ]
+}

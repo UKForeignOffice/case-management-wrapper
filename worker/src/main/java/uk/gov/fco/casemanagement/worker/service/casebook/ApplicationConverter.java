@@ -8,6 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import uk.gov.fco.casemanagement.common.domain.FeeDetail;
 import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
@@ -16,13 +17,16 @@ import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadSer
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
@@ -69,7 +73,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
         uk.gov.fco.casemanagement.worker.service.casebook.domain.Application application = notarialApplication.getApplication();
 
-        applyFeeServices(properties, application);
+        applyFeeServices(properties, application, source.getFees());
 
         StringBuilder description = new StringBuilder();
 
@@ -119,7 +123,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
             Fees fees = source.getFees();
             description
                     .append("\nAmount paid: ")
-                    .append(CURRENCY_FORMAT.format(fees.getTotal().divide(ONE_HUNDRED)))
+                    .append(CURRENCY_FORMAT.format(fees.getTotal().divide(ONE_HUNDRED, 2, RoundingMode.CEILING)))
                     .append("\nPayment reference: ")
                     .append(fees.getPaymentReference());
         }
@@ -129,15 +133,21 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         return notarialApplication;
     }
 
-    private void applyFeeServices(Map<String, Object> properties, Application application) {
+    private void applyFeeServices(Map<String, Object> properties, Application application, Fees fees) {
+        if (fees == null) {
+            return;
+        }
 
-        List<FeeService> feeServices = casebookService.getFeeServices(application.getPost(), application.getCaseType(),
-                application.getSummary());
+        List<FeeService> feeServices = casebookService.getFeeServices(
+                fees.getDetails().stream()
+                        .map(FeeDetail::getDescription)
+                        .collect(toList()));
 
         application.setFeeServices(feeServices);
 
         for (FeeService feeService : feeServices) {
-            for (Field field : feeService.getFields()) {
+            for (Iterator<Field> iterator = feeService.getFields().iterator(); iterator.hasNext(); ) {
+                Field field = iterator.next();
                 if (FIELD_PROPERTIES.containsKey(field.getFieldName())) {
                     String expression = FIELD_PROPERTIES.getProperty(field.getFieldName());
                     if (expression != null) {
@@ -151,6 +161,10 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                     if (value != null) {
                         field.setValue(value);
                     }
+                }
+                // Will cause a validation error if we send null values to CASEBOOK
+                if (field.getValue() == null) {
+                    iterator.remove();
                 }
             }
         }

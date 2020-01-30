@@ -13,13 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.config.CasebookProperties;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.Applicant;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.Application;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.CreateCaseResponse;
-import uk.gov.fco.casemanagement.worker.service.casebook.domain.NotarialApplication;
+import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 
 import java.time.Instant;
+import java.util.Map;
 
 import static java.util.Collections.emptyList;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -44,13 +42,16 @@ public class CasebookServiceTest {
     @Mock
     private CasebookProperties properties;
 
+    @Mock
+    private Map<String, FeeService> feeServices;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void setup() {
         initMocks(this);
         casebookService = new CasebookService(documentUploadService, restTemplate,
-                properties, objectMapper);
+                properties, objectMapper, feeServices);
     }
 
     @Test

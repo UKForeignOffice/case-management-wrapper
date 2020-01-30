@@ -61,7 +61,8 @@ public class MessageReceiver {
         consumer = SQSMessageConsumerBuilder.standard()
                 .withAmazonSQS(amazonSQS)
                 .withQueueUrl(properties.getQueueUrl())
-                .withConsumer(this::processMessage).build();
+                .withConsumer(this::processMessage)
+                .build();
         consumer.start();
     }
 

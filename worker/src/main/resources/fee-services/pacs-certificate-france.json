@@ -1,0 +1,29 @@
+{
+  "name": "PACS Certificate (France)",
+  "fields": [
+    {
+      "fieldName": "francePacsFullNameAtBirth",
+      "fieldListName": "francePacs"
+    },
+    {
+      "fieldName": "francePacsTownOfBirth",
+      "fieldListName": "francePacs"
+    },
+    {
+      "fieldName": "francePacsCountryOfBirth",
+      "fieldListName": "francePacs"
+    },
+    {
+      "fieldName": "francePacsCountryOfBirthFrench",
+      "fieldListName": "francePacs"
+    },
+    {
+      "fieldName": "francePacsMaritalStatus",
+      "fieldListName": "francePacs"
+    },
+    {
+      "fieldName": "francePacsIssueDate",
+      "fieldListName": "francePacs"
+    }
+  ]
+}
