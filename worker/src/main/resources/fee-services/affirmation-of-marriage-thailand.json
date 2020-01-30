@@ -1,111 +1,109 @@
-[
-  {
-    "name": "Affirmation of Marriage (Thailand)",
-    "fields": [
-      {
-        "fieldName": "thailandAffirmationWhatYoullNeedUkPassport",
-        "fieldListName": "thailandAffirmationWhatYoullNeed"
-      },
-      {
-        "fieldName": "thailandAffirmationWhatYoullNeedOppositeSex",
-        "fieldListName": "thailandAffirmationWhatYoullNeed"
-      },
-      {
-        "fieldName": "thailandAffirmationStatusMarriedCivilBefore",
-        "fieldListName": "thailandAffirmationStatus"
-      },
-      {
-        "fieldName": "thailandAffirmationStatusMarriedCivilMaritalStatus",
-        "fieldListName": "thailandAffirmationStatus"
-      },
-      {
-        "fieldName": "thailandAffirmationMainOccupation",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationFathersName",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationMothersName",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationMothersMaidenName",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationPartnersName",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationPartnersNationality",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationPlaceOfBirth",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationPartnersPassportNo",
-        "fieldListName": "thailandAffirmationPersonalDetails"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee1Name",
-        "fieldListName": "thailandAffirmationReferee1"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee1Address",
-        "fieldListName": "thailandAffirmationReferee1"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee1Town",
-        "fieldListName": "thailandAffirmationReferee1"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee1Postcode",
-        "fieldListName": "thailandAffirmationReferee1"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee1Country",
-        "fieldListName": "thailandAffirmationReferee1"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee2Name",
-        "fieldListName": "thailandAffirmationReferee2"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee2Address",
-        "fieldListName": "thailandAffirmationReferee2"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee2Town",
-        "fieldListName": "thailandAffirmationReferee2"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee2Postcode",
-        "fieldListName": "thailandAffirmationReferee2"
-      },
-      {
-        "fieldName": "thailandAffirmationReferee2Country",
-        "fieldListName": "thailandAffirmationReferee2"
-      },
-      {
-        "fieldName": "thailandAffirmationRegistrationDate",
-        "fieldListName": "thailandAffirmationMarriageRegistration"
-      },
-      {
-        "fieldName": "thailandAffirmationRegistrationProvince",
-        "fieldListName": "thailandAffirmationMarriageRegistration"
-      },
-      {
-        "fieldName": "notarialConsentMethodOfContact",
-        "fieldListName": "notarialConsentDetails"
-      },
-      {
-        "fieldName": "notarialDeclaration",
-        "fieldListName": "notarialDeclarationDetails"
-      }
-    ]
-  }
-]
+{
+  "name": "Affirmation of Marriage (Thailand)",
+  "fields": [
+    {
+      "fieldName": "thailandAffirmationWhatYoullNeedUkPassport",
+      "fieldListName": "thailandAffirmationWhatYoullNeed"
+    },
+    {
+      "fieldName": "thailandAffirmationWhatYoullNeedOppositeSex",
+      "fieldListName": "thailandAffirmationWhatYoullNeed"
+    },
+    {
+      "fieldName": "thailandAffirmationStatusMarriedCivilBefore",
+      "fieldListName": "thailandAffirmationStatus"
+    },
+    {
+      "fieldName": "thailandAffirmationStatusMarriedCivilMaritalStatus",
+      "fieldListName": "thailandAffirmationStatus"
+    },
+    {
+      "fieldName": "thailandAffirmationMainOccupation",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationFathersName",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationMothersName",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationMothersMaidenName",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationPartnersName",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationPartnersNationality",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationPlaceOfBirth",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationPartnersPassportNo",
+      "fieldListName": "thailandAffirmationPersonalDetails"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee1Name",
+      "fieldListName": "thailandAffirmationReferee1"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee1Address",
+      "fieldListName": "thailandAffirmationReferee1"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee1Town",
+      "fieldListName": "thailandAffirmationReferee1"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee1Postcode",
+      "fieldListName": "thailandAffirmationReferee1"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee1Country",
+      "fieldListName": "thailandAffirmationReferee1"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee2Name",
+      "fieldListName": "thailandAffirmationReferee2"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee2Address",
+      "fieldListName": "thailandAffirmationReferee2"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee2Town",
+      "fieldListName": "thailandAffirmationReferee2"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee2Postcode",
+      "fieldListName": "thailandAffirmationReferee2"
+    },
+    {
+      "fieldName": "thailandAffirmationReferee2Country",
+      "fieldListName": "thailandAffirmationReferee2"
+    },
+    {
+      "fieldName": "thailandAffirmationRegistrationDate",
+      "fieldListName": "thailandAffirmationMarriageRegistration"
+    },
+    {
+      "fieldName": "thailandAffirmationRegistrationProvince",
+      "fieldListName": "thailandAffirmationMarriageRegistration"
+    },
+    {
+      "fieldName": "notarialConsentMethodOfContact",
+      "fieldListName": "notarialConsentDetails"
+    },
+    {
+      "fieldName": "notarialDeclaration",
+      "fieldListName": "notarialDeclarationDetails"
+    }
+  ]
+}

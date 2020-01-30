@@ -24,7 +24,6 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -104,9 +103,11 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                                     log.warn("Invalid file URL provided in form data", e);
                                 }
                             } else if (properties.containsKey(field.getId())) {
-                                answers.append(field.getTitle())
-                                        .append(": ")
-                                        .append(field.getAnswer())
+                                if (!field.getTitle().equals(question.getQuestion())) {
+                                    answers.append(field.getTitle())
+                                            .append(": ");
+                                }
+                                answers.append(field.getAnswer())
                                         .append("\n");
                             }
                         });
@@ -142,6 +143,11 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                 fees.getDetails().stream()
                         .map(FeeDetail::getDescription)
                         .collect(toList()));
+
+        application.setSummary(fees.getDetails().stream()
+                .map(FeeDetail::getDescription)
+                .reduce((s, s2) -> s + ", " + s2)
+                .orElse(null));
 
         application.setFeeServices(feeServices);
 
