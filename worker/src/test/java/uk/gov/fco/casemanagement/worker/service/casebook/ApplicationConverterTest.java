@@ -158,7 +158,6 @@ public class ApplicationConverterTest {
         final String marriageCategory = "marriageCategory";
         final String post = "post";
         final String reasonForBeingOverseas = "reasonForBeingOverseas";
-        final String summary = "summary";
 
         Form form = new FormBuilder()
                 .withQuestion("caseType", caseType)
@@ -166,7 +165,6 @@ public class ApplicationConverterTest {
                 .withQuestion("marriageCategory", marriageCategory)
                 .withQuestion("post", post)
                 .withQuestion("reasonForBeingOverseas", reasonForBeingOverseas)
-                .withQuestion("summary", summary)
                 .build();
 
         NotarialApplication notarialApplication = applicationConverter.convert(form);
@@ -178,7 +176,6 @@ public class ApplicationConverterTest {
         assertThat(application.getCustomerInsightConsent(), equalTo(customerInsightConsent));
         assertThat(application.getMarriageCategory(), equalTo(marriageCategory));
         assertThat(application.getPost(), equalTo(post));
-        assertThat(application.getSummary(), equalTo(summary));
     }
 
     @Test

@@ -84,14 +84,12 @@ public class CasebookServiceTest {
     public void shouldSendCaseToCasebook() throws Exception {
         final String post = "Beirut";
         final String caseType = "Consular Marriage";
-        final String summary = "Certificate of No Impediment (Fee 10 & Fee 11ii)";
         final String firstName = "Max";
         final String lastName = "Stewart";
 
         Form form = new FormBuilder()
                 .withMetadata("post", post)
                 .withMetadata("caseType", caseType)
-                .withMetadata("summary", summary)
                 .withQuestion("firstName", firstName)
                 .withQuestion("lastName", lastName)
                 .build();
@@ -133,7 +131,6 @@ public class CasebookServiceTest {
 
         assertThat(application, notNullValue());
         assertThat(application.getPost(), equalTo(post));
-        assertThat(application.getSummary(), equalTo(summary));
         assertThat(application.getCaseType(), equalTo(caseType));
     }
 }
