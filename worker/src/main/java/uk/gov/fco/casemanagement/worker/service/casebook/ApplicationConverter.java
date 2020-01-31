@@ -12,6 +12,7 @@ import uk.gov.fco.casemanagement.common.domain.FeeDetail;
 import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
+import uk.gov.fco.casemanagement.worker.service.casebook.domain.field.Field;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadServiceException;
 

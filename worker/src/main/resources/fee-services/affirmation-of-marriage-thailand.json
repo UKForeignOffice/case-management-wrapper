@@ -3,107 +3,133 @@
   "fields": [
     {
       "fieldName": "thailandAffirmationWhatYoullNeedUkPassport",
-      "fieldListName": "thailandAffirmationWhatYoullNeed"
+      "fieldListName": "thailandAffirmationWhatYoullNeed",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationWhatYoullNeedOppositeSex",
-      "fieldListName": "thailandAffirmationWhatYoullNeed"
+      "fieldListName": "thailandAffirmationWhatYoullNeed",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationStatusMarriedCivilBefore",
-      "fieldListName": "thailandAffirmationStatus"
+      "fieldListName": "thailandAffirmationStatus",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationStatusMarriedCivilMaritalStatus",
-      "fieldListName": "thailandAffirmationStatus"
+      "fieldListName": "thailandAffirmationStatus",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationMainOccupation",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationFathersName",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationMothersName",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationMothersMaidenName",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationPartnersName",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationPartnersNationality",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationPlaceOfBirth",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationPartnersPassportNo",
-      "fieldListName": "thailandAffirmationPersonalDetails"
+      "fieldListName": "thailandAffirmationPersonalDetails",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee1Name",
-      "fieldListName": "thailandAffirmationReferee1"
+      "fieldListName": "thailandAffirmationReferee1",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee1Address",
-      "fieldListName": "thailandAffirmationReferee1"
+      "fieldListName": "thailandAffirmationReferee1",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee1Town",
-      "fieldListName": "thailandAffirmationReferee1"
+      "fieldListName": "thailandAffirmationReferee1",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee1Postcode",
-      "fieldListName": "thailandAffirmationReferee1"
+      "fieldListName": "thailandAffirmationReferee1",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee1Country",
-      "fieldListName": "thailandAffirmationReferee1"
+      "fieldListName": "thailandAffirmationReferee1",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee2Name",
-      "fieldListName": "thailandAffirmationReferee2"
+      "fieldListName": "thailandAffirmationReferee2",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee2Address",
-      "fieldListName": "thailandAffirmationReferee2"
+      "fieldListName": "thailandAffirmationReferee2",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee2Town",
-      "fieldListName": "thailandAffirmationReferee2"
+      "fieldListName": "thailandAffirmationReferee2",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee2Postcode",
-      "fieldListName": "thailandAffirmationReferee2"
+      "fieldListName": "thailandAffirmationReferee2",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationReferee2Country",
-      "fieldListName": "thailandAffirmationReferee2"
+      "fieldListName": "thailandAffirmationReferee2",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationRegistrationDate",
-      "fieldListName": "thailandAffirmationMarriageRegistration"
+      "fieldListName": "thailandAffirmationMarriageRegistration",
+      "type": "string"
     },
     {
       "fieldName": "thailandAffirmationRegistrationProvince",
-      "fieldListName": "thailandAffirmationMarriageRegistration"
+      "fieldListName": "thailandAffirmationMarriageRegistration",
+      "type": "string"
     },
     {
       "fieldName": "notarialConsentMethodOfContact",
-      "fieldListName": "notarialConsentDetails"
+      "fieldListName": "notarialConsentDetails",
+      "type": "string"
     },
     {
       "fieldName": "notarialDeclaration",
-      "fieldListName": "notarialDeclarationDetails"
+      "fieldListName": "notarialDeclarationDetails",
+      "type": "boolean"
     }
   ]
 }

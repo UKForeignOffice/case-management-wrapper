@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import uk.gov.fco.casemanagement.common.domain.Fees;
 import uk.gov.fco.casemanagement.common.domain.Form;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
+import uk.gov.fco.casemanagement.worker.service.casebook.domain.field.Field;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 
 import java.math.BigDecimal;
@@ -303,14 +304,12 @@ public class ApplicationConverterTest {
     public void shouldConvertExpression() {
 
         Form form = new FormBuilder()
-                .withQuestion("declaration", "Yes")
                 .withFees(new FeesBuilder("ref").build())
                 .build();
 
         when(casebookService.getFeeServices(any())).thenReturn(ImmutableList.of(
                 new FeeServiceBuilder()
                         .withName("name")
-                        .withField("notarialDeclaration")
                         .withField("notarialConsentMethodOfContact")
                         .build()
         ));
@@ -324,8 +323,34 @@ public class ApplicationConverterTest {
 
         FeeService feeService = application.getFeeServices().get(0);
 
-        assertFieldEquals(feeService.getFields(), "notarialDeclaration", "true");
         assertFieldEquals(feeService.getFields(), "notarialConsentMethodOfContact", "Not set");
+    }
+
+    @Test
+    public void shouldConvertBooleanField() {
+
+        Form form = new FormBuilder()
+                .withQuestion("declaration", "true")
+                .withFees(new FeesBuilder("ref").build())
+                .build();
+
+        when(casebookService.getFeeServices(any())).thenReturn(ImmutableList.of(
+                new FeeServiceBuilder()
+                        .withName("name")
+                        .withBooleanField("notarialDeclaration")
+                        .build()
+        ));
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+        assertThat(application.getFeeServices(), notNullValue());
+        assertThat(application.getFeeServices().size(), is(1));
+
+        FeeService feeService = application.getFeeServices().get(0);
+
+        assertFieldEquals(feeService.getFields(), "notarialDeclaration", Boolean.TRUE);
     }
 
     @Test
@@ -387,7 +412,7 @@ public class ApplicationConverterTest {
         assertFieldEquals(feeService.getFields(), "somethingUnmapped", "Test");
     }
 
-    private void assertFieldEquals(List<Field> fields, String fieldName, String value) {
+    private void assertFieldEquals(List<Field> fields, String fieldName, Object value) {
         Optional<Field> possibleField = fields.stream()
                 .filter(f -> f.getFieldName().equals(fieldName))
                 .findFirst();

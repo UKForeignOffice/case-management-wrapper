@@ -3,27 +3,33 @@
   "fields": [
     {
       "fieldName": "franceMarriageFullNameAtBirth",
-      "fieldListName": "franceMarriage"
+      "fieldListName": "franceMarriage",
+      "type": "string"
     },
     {
       "fieldName": "franceMarriageTownOfBirth",
-      "fieldListName": "franceMarriage"
+      "fieldListName": "franceMarriage",
+      "type": "string"
     },
     {
       "fieldName": "franceMarriageCountryOfBirth",
-      "fieldListName": "franceMarriage"
+      "fieldListName": "franceMarriage",
+      "type": "string"
     },
     {
       "fieldName": "franceMarriageCountryOfBirthFrench",
-      "fieldListName": "franceMarriage"
+      "fieldListName": "franceMarriage",
+      "type": "string"
     },
     {
       "fieldName": "franceMarriageMaritalStatus",
-      "fieldListName": "franceMarriage"
+      "fieldListName": "franceMarriage",
+      "type": "string"
     },
     {
       "fieldName": "franceMarriageIssueDate",
-      "fieldListName": "franceMarriage"
+      "fieldListName": "franceMarriage",
+      "type": "string"
     }
   ]
 }

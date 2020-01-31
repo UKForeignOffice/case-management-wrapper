@@ -3,27 +3,33 @@
   "fields": [
     {
       "fieldName": "francePacsFullNameAtBirth",
-      "fieldListName": "francePacs"
+      "fieldListName": "francePacs",
+      "type": "string"
     },
     {
       "fieldName": "francePacsTownOfBirth",
-      "fieldListName": "francePacs"
+      "fieldListName": "francePacs",
+      "type": "string"
     },
     {
       "fieldName": "francePacsCountryOfBirth",
-      "fieldListName": "francePacs"
+      "fieldListName": "francePacs",
+      "type": "string"
     },
     {
       "fieldName": "francePacsCountryOfBirthFrench",
-      "fieldListName": "francePacs"
+      "fieldListName": "francePacs",
+      "type": "string"
     },
     {
       "fieldName": "francePacsMaritalStatus",
-      "fieldListName": "francePacs"
+      "fieldListName": "francePacs",
+      "type": "string"
     },
     {
       "fieldName": "francePacsIssueDate",
-      "fieldListName": "francePacs"
+      "fieldListName": "francePacs",
+      "type": "string"
     }
   ]
 }
