@@ -38,5 +38,11 @@ public class Applicant {
 
     private String countryOfBirth;
 
+    private String gender;
+
+    private String passportIssueDate;
+
+    private String passportNumber;
+
     private Address address = new Address();
 }

@@ -1,0 +1,105 @@
+{
+  "name": "MSC Marriage Certificate (Spain)",
+  "fields": [
+    {
+      "fieldName": "spainMscEligibilityLive",
+      "fieldListName": "spainMscEligibility"
+    },
+    {
+      "fieldName": "spainMscEligibilityPartnerSpanishNational",
+      "fieldListName": "spainMscEligibility"
+    },
+    {
+      "fieldName": "spainMscEligibilityPartnerSpanishResident",
+      "fieldListName": "spainMscEligibility"
+    },
+    {
+      "fieldName": "spainMscEligibilityNoImpediment",
+      "fieldListName": "spainMscEligibility"
+    },
+    {
+      "fieldName": "spainMscEligibilityCertificate",
+      "fieldListName": "spainMscEligibility"
+    },
+    {
+      "fieldName": "spainMscStatusMaritalStatus",
+      "fieldListName": "spainMscStatus"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsCivilPartnership",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsMaritalStatus",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsSex",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsNationality",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsSpanishAuthority",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsAppointmentDate",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsPlaceOfCeremony",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscPartnersDetailsDateOfCeremony",
+      "fieldListName": "spainMscPartnersDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsPlaceOfBirth",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsFathersFirstName",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsFathersLastName",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsMothersFirstName",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsMothersLastName",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsDeliveryAddressAddress",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsDeliveryAddressAddressLine2",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsDeliveryAddressTown",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "spainMscYourDetailsDeliveryAddressPostcode",
+      "fieldListName": "spainMscYourDetails"
+    },
+    {
+      "fieldName": "notarialConsentMethodOfContact",
+      "fieldListName": "notarialConsentDetails"
+    },
+    {
+      "fieldName": "notarialDeclaration",
+      "fieldListName": "notarialDeclarationDetails"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "name": "Certificate of No Impediment (Spain)",
+  "fields": [
+    {
+      "fieldName": "spainCniYourDetailsMaritalStatus",
+      "fieldListName": "spainCniYourDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsFirstName",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsLastName",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsNationalitySpanish",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsNationality",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddress",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddressLine2",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddressTown",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddressPostcode",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsMaritalStatus",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsSex",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsDateOfCeremony",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniEligibilityLive",
+      "fieldListName": "spainCniEligibility"
+    },
+    {
+      "fieldName": "spainCniEligibilityPartnerSpanishNational",
+      "fieldListName": "spainCniEligibility"
+    },
+    {
+      "fieldName": "spainCniEligibilityPartnerSpanishResident",
+      "fieldListName": "spainCniEligibility"
+    },
+    {
+      "fieldName": "spainCniEligibilityNoImpediment",
+      "fieldListName": "spainCniEligibility"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsSpanishAuthority",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsCivilPartnershipBefore",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsDateOfAppointment",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsPlaceOfCeremony",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsDateOfCeremony",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddress",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddressLine2",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddressTown",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniPartnersDetailsAddressPostcode",
+      "fieldListName": "spainCniPartnersDetails"
+    },
+    {
+      "fieldName": "spainCniYourDetailsNationality",
+      "fieldListName": "spainCniYourDetails"
+    },
+    {
+      "fieldName": "spainCniYourDetailsNationalitySpanish",
+      "fieldListName": "spainCniYourDetails"
+    },
+    {
+      "fieldName": "spainCniYourDetailsDeliveryAddressAddress",
+      "fieldListName": "spainCniYourDetails"
+    },
+    {
+      "fieldName": "spainCniYourDetailsDeliveryAddressAddressLine2",
+      "fieldListName": "spainCniYourDetails"
+    },
+    {
+      "fieldName": "spainCniYourDetailsDeliveryAddressTown",
+      "fieldListName": "spainCniYourDetails"
+    },
+    {
+      "fieldName": "spainCniYourDetailsDeliveryAddressPostcode",
+      "fieldListName": "spainCniYourDetails"
+    }
+  ]
+}
