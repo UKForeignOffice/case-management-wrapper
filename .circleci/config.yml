@@ -5,9 +5,6 @@ defaults: &defaults
   docker:
     - image: circleci/openjdk:8-jdk
 
-orbs:
-  slack: circleci/slack@0.1.0
-
 jobs:
   test:
     <<: *defaults
@@ -56,9 +53,6 @@ jobs:
             - api/build
             - worker/build
 
-      - slack/status:
-          fail_only: "true"
-
   publish-api:
     <<: *defaults
 
@@ -89,9 +83,6 @@ jobs:
           root: .
           paths:
             - api/tag.txt
-
-      - slack/status:
-          fail_only: "true"
 
   publish-worker:
     <<: *defaults
@@ -124,9 +115,6 @@ jobs:
           paths:
             - worker/tag.txt
 
-      - slack/status:
-          fail_only: "true"
-
   deploy:
     <<: *defaults
 
@@ -144,8 +132,6 @@ jobs:
           command: |
             TAG=`cat api/tag.txt`
             echo "Someday I'll deploy version ${TAG}"
-
-      - slack/status
 
 workflows:
   "Test, publish and deploy":
