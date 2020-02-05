@@ -29,7 +29,7 @@
     {
       "fieldName": "francePacsIssueDate",
       "fieldListName": "francePacs",
-      "type": "string"
+      "type": "date"
     }
   ]
 }

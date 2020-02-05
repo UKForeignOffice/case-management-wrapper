@@ -29,7 +29,7 @@
     {
       "fieldName": "franceMarriageIssueDate",
       "fieldListName": "franceMarriage",
-      "type": "string"
+      "type": "date"
     }
   ]
 }
