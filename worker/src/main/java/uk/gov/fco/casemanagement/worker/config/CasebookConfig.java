@@ -47,8 +47,8 @@ public class CasebookConfig {
 
     @Bean
     @Qualifier("feeServices")
-    public Map<String, FeeService> emailTemplates(ObjectMapper objectMapper,
-                                                  ResourceLoader resourceLoader) throws IOException {
+    public Map<String, FeeService> feeServices(ObjectMapper objectMapper,
+                                               ResourceLoader resourceLoader) throws IOException {
         Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader)
                 .getResources("classpath:/fee-services/*");
 

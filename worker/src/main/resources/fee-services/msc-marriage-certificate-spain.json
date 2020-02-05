@@ -3,103 +3,128 @@
   "fields": [
     {
       "fieldName": "spainMscEligibilityLive",
-      "fieldListName": "spainMscEligibility"
+      "fieldListName": "spainMscEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainMscEligibilityPartnerSpanishNational",
-      "fieldListName": "spainMscEligibility"
+      "fieldListName": "spainMscEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainMscEligibilityPartnerSpanishResident",
-      "fieldListName": "spainMscEligibility"
+      "fieldListName": "spainMscEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainMscEligibilityNoImpediment",
-      "fieldListName": "spainMscEligibility"
+      "fieldListName": "spainMscEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainMscEligibilityCertificate",
-      "fieldListName": "spainMscEligibility"
+      "fieldListName": "spainMscEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainMscStatusMaritalStatus",
-      "fieldListName": "spainMscStatus"
+      "fieldListName": "spainMscStatus",
+      "type": "string"
     },
     {
       "fieldName": "spainMscPartnersDetailsCivilPartnership",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscPartnersDetailsMaritalStatus",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscPartnersDetailsSex",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscPartnersDetailsNationality",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscPartnersDetailsSpanishAuthority",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscPartnersDetailsAppointmentDate",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "date"
     },
     {
       "fieldName": "spainMscPartnersDetailsPlaceOfCeremony",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscPartnersDetailsDateOfCeremony",
-      "fieldListName": "spainMscPartnersDetails"
+      "fieldListName": "spainMscPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsPlaceOfBirth",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsFathersFirstName",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsFathersLastName",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsMothersFirstName",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsMothersLastName",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsDeliveryAddressAddress",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsDeliveryAddressAddressLine2",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsDeliveryAddressTown",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainMscYourDetailsDeliveryAddressPostcode",
-      "fieldListName": "spainMscYourDetails"
+      "fieldListName": "spainMscYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "notarialConsentMethodOfContact",
-      "fieldListName": "notarialConsentDetails"
+      "fieldListName": "notarialConsentDetails",
+      "type": "string"
     },
     {
       "fieldName": "notarialDeclaration",
-      "fieldListName": "notarialDeclarationDetails"
+      "fieldListName": "notarialDeclarationDetails",
+      "type": "boolean"
     }
   ]
 }

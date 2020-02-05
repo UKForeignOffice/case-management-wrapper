@@ -3,83 +3,103 @@
   "fields": [
     {
       "fieldName": "spainCniYourDetailsMaritalStatus",
-      "fieldListName": "spainCniYourDetails"
+      "fieldListName": "spainCniYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsFirstName",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsLastName",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsNationalitySpanish",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsNationality",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddress",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddressLine2",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddressTown",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddressPostcode",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsMaritalStatus",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsSex",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsDateOfCeremony",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "date"
     },
     {
       "fieldName": "spainCniEligibilityLive",
-      "fieldListName": "spainCniEligibility"
+      "fieldListName": "spainCniEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainCniEligibilityPartnerSpanishNational",
-      "fieldListName": "spainCniEligibility"
+      "fieldListName": "spainCniEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainCniEligibilityPartnerSpanishResident",
-      "fieldListName": "spainCniEligibility"
+      "fieldListName": "spainCniEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainCniEligibilityNoImpediment",
-      "fieldListName": "spainCniEligibility"
+      "fieldListName": "spainCniEligibility",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsSpanishAuthority",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsCivilPartnershipBefore",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsDateOfAppointment",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsPlaceOfCeremony",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsDateOfCeremony",
@@ -87,43 +107,53 @@
     },
     {
       "fieldName": "spainCniPartnersDetailsAddress",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddressLine2",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddressTown",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddressPostcode",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniYourDetailsNationality",
-      "fieldListName": "spainCniYourDetails"
+      "fieldListName": "spainCniYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniYourDetailsNationalitySpanish",
-      "fieldListName": "spainCniYourDetails"
+      "fieldListName": "spainCniYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniYourDetailsDeliveryAddressAddress",
-      "fieldListName": "spainCniYourDetails"
+      "fieldListName": "spainCniYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniYourDetailsDeliveryAddressAddressLine2",
-      "fieldListName": "spainCniYourDetails"
+      "fieldListName": "spainCniYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniYourDetailsDeliveryAddressTown",
-      "fieldListName": "spainCniYourDetails"
+      "fieldListName": "spainCniYourDetails",
+      "type": "string"
     },
     {
       "fieldName": "spainCniYourDetailsDeliveryAddressPostcode",
-      "fieldListName": "spainCniYourDetails"
+      "fieldListName": "spainCniYourDetails",
+      "type": "string"
     }
   ]
 }
