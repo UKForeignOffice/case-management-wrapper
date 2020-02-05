@@ -103,7 +103,8 @@
     },
     {
       "fieldName": "spainCniPartnersDetailsDateOfCeremony",
-      "fieldListName": "spainCniPartnersDetails"
+      "fieldListName": "spainCniPartnersDetails",
+      "type": "date"
     },
     {
       "fieldName": "spainCniPartnersDetailsAddress",

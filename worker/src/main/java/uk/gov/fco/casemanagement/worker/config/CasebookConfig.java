@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Configuration
 @Slf4j
@@ -67,7 +68,8 @@ public class CasebookConfig {
     public RestTemplate restTemplate() {
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 
-        if (properties.getClientCertificate() != null) {
+        if (isNotBlank(properties.getClientCertificate())
+                && isNotBlank(properties.getClientKey())) {
             try (
                     InputStream in = new ByteArrayInputStream(properties.getClientCertificate().getBytes())
             ) {
