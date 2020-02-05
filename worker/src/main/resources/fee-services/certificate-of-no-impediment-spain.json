@@ -107,26 +107,6 @@
       "type": "date"
     },
     {
-      "fieldName": "spainCniPartnersDetailsAddress",
-      "fieldListName": "spainCniPartnersDetails",
-      "type": "string"
-    },
-    {
-      "fieldName": "spainCniPartnersDetailsAddressLine2",
-      "fieldListName": "spainCniPartnersDetails",
-      "type": "string"
-    },
-    {
-      "fieldName": "spainCniPartnersDetailsAddressTown",
-      "fieldListName": "spainCniPartnersDetails",
-      "type": "string"
-    },
-    {
-      "fieldName": "spainCniPartnersDetailsAddressPostcode",
-      "fieldListName": "spainCniPartnersDetails",
-      "type": "string"
-    },
-    {
       "fieldName": "spainCniYourDetailsNationality",
       "fieldListName": "spainCniYourDetails",
       "type": "string"
