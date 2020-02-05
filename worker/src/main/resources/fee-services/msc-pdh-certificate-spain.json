@@ -1,0 +1,105 @@
+{
+  "name": "MSC PDH Certificate (Spain)",
+  "fields": [
+    {
+      "fieldName": "spainPdhEligibilityUkPassport",
+      "fieldListName": "spainPdhEligibility",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhEligibilityCertificate",
+      "fieldListName": "spainPdhEligibility",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhEligibilityCertificateRegion",
+      "fieldListName": "spainPdhEligibility",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhStatusMaritalStatus",
+      "fieldListName": "spainPdhStatus",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhPartnersDetailsCivilPartnership",
+      "fieldListName": "spainPdhPartnersDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhPartnersDetailsMaritalStatus",
+      "fieldListName": "spainPdhPartnersDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsPassportIssuingAuthority",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsPlaceOfBirth",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsFathersFirstName",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsFathersLastName",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsMothersFirstName",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsMothersLastName",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsDeliveryAddressAddress",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsDeliveryAddressAddressLine2",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsDeliveryAddressTown",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsDeliveryAddressPostcode",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsDateOfAppointment",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "date"
+    },
+    {
+      "fieldName": "spainPdhYourDetailsDateOfCeremony",
+      "fieldListName": "spainPdhYourDetails",
+      "type": "date"
+    },
+    {
+      "fieldName": "spainPdhYourContactDetailsSpanishAuthority",
+      "fieldListName": "spainPdhYourContactDetails",
+      "type": "string"
+    },
+    {
+      "fieldName": "spainPdhYourContactDetailsDateOfAppointment",
+      "fieldListName": "spainPdhYourContactDetails",
+      "type": "date"
+    }
+  ]
+}

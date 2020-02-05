@@ -1,5 +1,6 @@
 package uk.gov.fco.casemanagement.api.service;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.sqs.AmazonSQSRequester;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
@@ -60,6 +61,22 @@ public class MessageQueueService {
             return response.getBody();
         } catch (TimeoutException e) {
             throw new MessageQueueTimeoutException(e);
+        } catch (AmazonClientException e) {
+            if (isTimeout(e)) {
+                throw new MessageQueueTimeoutException(e);
+            }
+            throw e;
         }
+    }
+
+    private boolean isTimeout(AmazonClientException e) {
+        Throwable cause = e;
+        while (cause.getCause() != null) {
+            cause = cause.getCause();
+            if (cause instanceof TimeoutException) {
+                return true;
+            }
+        }
+        return false;
     }
 }
