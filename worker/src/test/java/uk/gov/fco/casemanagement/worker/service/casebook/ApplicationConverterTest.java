@@ -136,7 +136,7 @@ public class ApplicationConverterTest {
         assertThat(applicant, notNullValue());
         assertThat(applicant.getCityOfBirth(), equalTo(cityOfBirth));
         assertThat(applicant.getCountryOfBirth(), equalTo(countryOfBirth));
-        assertThat(applicant.getDateOfBirth(), equalTo("01/10/1980"));
+        assertThat(applicant.getDateOfBirth(), equalTo("1980-10-01"));
         assertThat(applicant.getEmail(), equalTo(emailAddress));
         assertThat(applicant.getEthnicity(), equalTo(ethnicity));
         assertThat(applicant.getEveningTelephone(), equalTo(eveningTelephone));
