@@ -58,7 +58,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
 
     private DocumentUploadService documentUploadService;
 
-    public ApplicationConverter(@NonNull CasebookService casebookService, @NonNull DocumentUploadService documentUploadService) {
+    ApplicationConverter(@NonNull CasebookService casebookService, @NonNull DocumentUploadService documentUploadService) {
         this.casebookService = casebookService;
         this.documentUploadService = documentUploadService;
     }
@@ -66,7 +66,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
     @Override
     public @NonNull NotarialApplication convert(Form source) {
 
-        Map<String, Object> properties = source.getAnswers();
+        AccessAwareMap<String, Object> properties = new AccessAwareMap<>(source.getAnswers());
 
         NotarialApplication notarialApplication = new NotarialApplication();
         setProperties(properties, notarialApplication);
@@ -81,7 +81,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
             // Load any attachments and format any properties not mapped to CASEBOOK into description field.
             source.getQuestions().stream()
                     .filter(question -> question.getFields().stream()
-                            .anyMatch(field -> properties.containsKey(field.getId())))
+                            .anyMatch(field -> properties.containsKey(field.getId()) && !properties.wasAccessed(field.getId())))
                     .forEach(question -> {
                         StringBuilder answers = new StringBuilder();
                         question.getFields().forEach(field -> {
@@ -158,13 +158,13 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                 if (FIELD_PROPERTIES.containsKey(field.getFieldName())) {
                     String expression = FIELD_PROPERTIES.getProperty(field.getFieldName());
                     if (expression != null) {
-                        String value = formatAndRemoveValue(properties, expression);
+                        String value = formatValue(properties, expression);
                         if (value != null) {
                             field.setValue(value);
                         }
                     }
                 } else {
-                    String value = formatAndRemoveValue(properties, field.getFieldName());
+                    String value = formatValue(properties, field.getFieldName());
                     if (value != null) {
                         field.setValue(value);
                     }
@@ -183,7 +183,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         for (String property : APPLICATION_PROPERTIES.stringPropertyNames()) {
             String expression = APPLICATION_PROPERTIES.getProperty(property);
             if (expression != null) {
-                String value = formatAndRemoveValue(properties, expression);
+                String value = formatValue(properties, expression);
                 if (value != null) {
                     wrappedApplication.setPropertyValue(property, value);
                 }
@@ -191,7 +191,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         }
     }
 
-    private String formatAndRemoveValue(Map<String, Object> properties, String expression) {
+    private String formatValue(Map<String, Object> properties, String expression) {
         if (expression.startsWith("#{")) {
             ExpressionParser parser = new SpelExpressionParser();
             Expression exp = parser.parseExpression(expression.substring(2, expression.length() - 1));
@@ -207,7 +207,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
         for (String key : keys) {
             String normalisedKey = key.toLowerCase();
             if (properties.containsKey(normalisedKey)) {
-                Object value = properties.remove(normalisedKey);
+                Object value = properties.get(normalisedKey);
                 String answer;
                 if (value instanceof Date) {
                     answer = DATE_FORMAT.format((Date) value);
