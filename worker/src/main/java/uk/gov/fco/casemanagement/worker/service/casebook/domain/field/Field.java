@@ -3,7 +3,7 @@ package uk.gov.fco.casemanagement.worker.service.casebook.domain.field;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", include = JsonTypeInfo.As.EXISTING_PROPERTY)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = BooleanField.class, name = "boolean"),
         @JsonSubTypes.Type(value = StringField.class, name = "string"),

@@ -114,7 +114,7 @@
     {
       "fieldName": "thailandAffirmationRegistrationDate",
       "fieldListName": "thailandAffirmationMarriageRegistration",
-      "type": "string"
+      "type": "date"
     },
     {
       "fieldName": "thailandAffirmationRegistrationProvince",

@@ -2,6 +2,7 @@ package uk.gov.fco.casemanagement.worker.service.casebook;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,15 +17,19 @@ import uk.gov.fco.casemanagement.worker.config.CasebookProperties;
 import uk.gov.fco.casemanagement.worker.service.casebook.domain.*;
 import uk.gov.fco.casemanagement.worker.service.documentupload.DocumentUploadService;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Map;
 
 import static java.util.Collections.emptyList;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -132,5 +137,45 @@ public class CasebookServiceTest {
         assertThat(application, notNullValue());
         assertThat(application.getPost(), equalTo(post));
         assertThat(application.getCaseType(), equalTo(caseType));
+    }
+
+    @Test
+    public void shouldSerialiseFeeServices() throws Exception {
+        final String post = "Beirut";
+        final String caseType = "Consular Marriage";
+        final String firstName = "Max";
+        final String lastName = "Stewart";
+
+        Form form = new FormBuilder()
+                .withMetadata("post", post)
+                .withMetadata("caseType", caseType)
+                .withFees(new FeesBuilder("ref").withFeeDetail("feeService", BigDecimal.ONE).build())
+                .withQuestion("firstName", firstName)
+                .withQuestion("lastName", lastName)
+                .build();
+
+        CreateCaseResponse response = new CreateCaseResponse();
+        response.setApplicationReference("reference");
+
+        when(feeServices.get("feeService")).thenReturn(new FeeServiceBuilder()
+                .withField("franceMarriageFullNameAtBirth")
+                .build());
+
+        when(restTemplate.exchange(anyString(), any(), any(), eq(CreateCaseResponse.class)))
+                .thenReturn(ResponseEntity.ok(response));
+        when(properties.getKey()).thenReturn("key");
+
+        casebookService.createCase(Instant.ofEpochMilli(0), form);
+
+        ArgumentCaptor<HttpEntity> httpEntityArgumentCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).exchange(anyString(), any(), httpEntityArgumentCaptor.capture(), eq(CreateCaseResponse.class));
+
+        HttpEntity httpEntity = httpEntityArgumentCaptor.getValue();
+
+        assertThat(httpEntity, notNullValue());
+
+        String body = (String) httpEntity.getBody();
+
+        assertThat(body.indexOf("\"type\":"), is(-1));
     }
 }
