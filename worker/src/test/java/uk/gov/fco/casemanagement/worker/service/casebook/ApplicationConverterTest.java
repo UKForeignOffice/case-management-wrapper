@@ -301,6 +301,74 @@ public class ApplicationConverterTest {
     }
 
     @Test
+    public void shouldConvertSpainPartnersFirstName() {
+
+        final String partnerName = "first";
+        final String feeServiceName = "feeServiceName";
+
+        Form form = new FormBuilder()
+                .withQuestion("partnersFullName", partnerName)
+                .withFees(new FeesBuilder("ref")
+                    .withFeeDetail(feeServiceName, BigDecimal.TEN)
+                    .build())
+                .build();
+
+        when(casebookService.getFeeServices(eq(ImmutableList.of(feeServiceName)))).thenReturn(ImmutableList.of(
+            new FeeServiceBuilder()
+                .withName(feeServiceName)
+                .withField("spainCniPartnersDetailsFirstName")
+                .build()
+        ));
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+        assertThat(application.getFeeServices(), notNullValue());
+        assertThat(application.getFeeServices().size(), is(1));
+
+        FeeService feeService = application.getFeeServices().get(0);
+
+        assertThat(feeService.getName(), equalTo(feeServiceName));
+
+        assertFieldEquals(feeService.getFields(), "spainCniPartnersDetailsFirstName", partnerName);
+    }
+
+    @Test
+    public void shouldConvertSpainPartnersFullName() {
+
+        final String partnerName = "first and last";
+        final String feeServiceName = "feeServiceName";
+
+        Form form = new FormBuilder()
+                .withQuestion("partnersFullName", partnerName)
+                .withFees(new FeesBuilder("ref")
+                    .withFeeDetail(feeServiceName, BigDecimal.TEN)
+                    .build())
+                .build();
+
+        when(casebookService.getFeeServices(eq(ImmutableList.of(feeServiceName)))).thenReturn(ImmutableList.of(
+            new FeeServiceBuilder()
+                .withName(feeServiceName)
+                .withField("spainCniPartnersDetailsLastName")
+                .build()
+        ));
+
+        NotarialApplication notarialApplication = applicationConverter.convert(form);
+        Application application = notarialApplication.getApplication();
+
+        assertThat(application, notNullValue());
+        assertThat(application.getFeeServices(), notNullValue());
+        assertThat(application.getFeeServices().size(), is(1));
+
+        FeeService feeService = application.getFeeServices().get(0);
+
+        assertThat(feeService.getName(), equalTo(feeServiceName));
+
+        assertFieldEquals(feeService.getFields(), "spainCniPartnersDetailsLastName", "and last");
+    }
+
+    @Test
     public void shouldConvertExpression() {
 
         Form form = new FormBuilder()
