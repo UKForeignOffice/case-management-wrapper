@@ -57,11 +57,6 @@
       "type": "string"
     },
     {
-      "fieldName": "spainCniPartnersDetailsDateOfCeremony",
-      "fieldListName": "spainCniPartnersDetails",
-      "type": "date"
-    },
-    {
       "fieldName": "spainCniEligibilityLive",
       "fieldListName": "spainCniEligibility",
       "type": "string"
