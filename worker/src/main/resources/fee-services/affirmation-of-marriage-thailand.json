@@ -130,6 +130,16 @@
       "fieldName": "notarialDeclaration",
       "fieldListName": "notarialDeclarationDetails",
       "type": "boolean"
+    },
+    {
+      "fieldListName": "thailandAffirmationStatus",
+      "fieldName": "thailandAffirmationStatusLatePartnerDateOfDeath",
+      "type": "date"
+    },
+    {
+      "fieldListName": "thailandAffirmationStatus",
+      "fieldName": "thailandAffirmationStatusLatePartnerPlaceOfDeath",
+      "type": "string"
     }
   ]
 }

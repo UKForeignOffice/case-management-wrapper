@@ -138,7 +138,6 @@ jobs:
           namespace: fco-forms-test
           container-image-updates: casemanagement-worker=523508197323.dkr.ecr.eu-west-2.amazonaws.com/fco/casemanagement-worker:`cat worker/tag.txt`
           resource-name: deployment/casemanagement-worker
-          show-kubectl-command: true
 
       - kubernetes/update-container-image:
           namespace: fco-forms-test
