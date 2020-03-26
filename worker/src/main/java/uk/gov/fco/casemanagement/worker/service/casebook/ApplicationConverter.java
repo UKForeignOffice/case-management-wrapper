@@ -81,7 +81,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
             // Load any attachments and format any properties not mapped to CASEBOOK into description field.
             source.getQuestions().stream()
                     .filter(question -> question.getFields().stream()
-                            .anyMatch(field -> properties.containsKey(field.getId()) && !properties.wasAccessed(field.getId())))
+                            .anyMatch(field -> properties.containsKey(field.getKey()) && !properties.wasAccessed(field.getKey())))
                     .forEach(question -> {
                         StringBuilder answers = new StringBuilder();
                         question.getFields().forEach(field -> {
@@ -103,7 +103,7 @@ public class ApplicationConverter implements Converter<Form, NotarialApplication
                                 } catch (MalformedURLException e) {
                                     log.warn("Invalid file URL provided in form data", e);
                                 }
-                            } else if (properties.containsKey(field.getId())) {
+                            } else if (properties.containsKey(field.getKey())) {
                                 if (!field.getTitle().equals(question.getQuestion())) {
                                     answers.append(field.getTitle())
                                             .append(": ");

@@ -52,10 +52,10 @@ public class MessageReceiverTest {
 
     @Test
     public void shouldSendApplicationToCasebook() throws Exception {
-        final String formId = "id";
+        final String formName = "name";
 
         Message message = new Message();
-        message.setBody("{\"id\": \"" + formId + "\", \"questions\": []}");
+        message.setBody("{\"name\": \"" + formName + "\", \"questions\": []}");
 
         when(casebookService.createCase(any(), any())).thenReturn("reference");
 
@@ -67,7 +67,7 @@ public class MessageReceiverTest {
         Form form = formArgumentCaptor.getValue();
 
         assertThat(form, notNullValue());
-        assertThat(form.getId(), equalTo(formId));
+        assertThat(form.getName(), equalTo(formName));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class MessageReceiverTest {
         final String reference = "reference";
 
         Message message = new Message();
-        message.setBody("{\"id\": \"id\", \"questions\": []}");
+        message.setBody("{\"name\": \"name\", \"questions\": []}");
 
         when(casebookService.createCase(any(), any())).thenReturn(reference);
 

@@ -18,19 +18,19 @@ class QuestionBuilder {
         return this;
     }
 
-    QuestionBuilder withField(String title, String id, String answer) {
-        return withField(title, id, "text", answer);
+    QuestionBuilder withField(String title, String key, String answer) {
+        return withField(title, key, "text", answer);
     }
 
-    QuestionBuilder withField(String title, String id, String type, String answer) {
-        Field field = new Field(id, type, title);
+    QuestionBuilder withField(String title, String key, String type, String answer) {
+        Field field = new Field(key, type, title);
         field.setAnswer(answer);
         fields.add(field);
         return this;
     }
 
     Question build() {
-        Question question = new Question(UUID.randomUUID().toString());
+        Question question = new Question();
         question.setQuestion(this.question);
         question.setFields(fields);
         return question;

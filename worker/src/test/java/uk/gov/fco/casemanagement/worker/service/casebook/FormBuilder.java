@@ -21,7 +21,7 @@ class FormBuilder {
         Field field = new Field(property, "text", property);
         field.setAnswer(answer);
 
-        Question question = new Question(UUID.randomUUID().toString());
+        Question question = new Question();
         question.addField(field);
 
         questions.add(question);

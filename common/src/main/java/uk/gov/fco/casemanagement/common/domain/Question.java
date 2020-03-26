@@ -12,9 +12,6 @@ import static java.util.Collections.unmodifiableList;
 
 public class Question {
 
-    @Schema(name = "id", example = "/uk-passport")
-    private String id;
-
     @Schema(example = "checkBeforeYouStart")
     private String category;
 
@@ -22,15 +19,6 @@ public class Question {
     private String question;
 
     private List<Field> fields = new ArrayList<>();
-
-    @JsonCreator
-    public Question(@JsonProperty("id") @NonNull String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
 
     public String getCategory() {
         return category;

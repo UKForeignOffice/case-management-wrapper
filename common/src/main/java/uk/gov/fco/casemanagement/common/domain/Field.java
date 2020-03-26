@@ -15,7 +15,7 @@ public class Field {
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-    private String id;
+    private String key;
 
     @Schema(name = "type", example = "text")
     private String type;
@@ -25,10 +25,10 @@ public class Field {
     private String answer;
 
     @JsonCreator
-    public Field(@JsonProperty("id") @NonNull String id,
+    public Field(@JsonProperty("key") @NonNull String key,
                  @JsonProperty("type") @NonNull String type,
                  @JsonProperty("title") @NonNull String title) {
-        this.id = id.toLowerCase();
+        this.key = key.toLowerCase();
         this.type = type;
         this.title = title;
     }
@@ -41,8 +41,8 @@ public class Field {
         }
     }
 
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     public String getType() {

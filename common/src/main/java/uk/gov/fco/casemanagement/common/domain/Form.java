@@ -22,9 +22,6 @@ import static java.util.Collections.unmodifiableMap;
 )
 public class Form {
 
-    @Schema(name = "id", example = "thailand")
-    private String id;
-
     @Schema(name = "name", example = "Prove your eligibility, Thailand")
     private String name;
 
@@ -37,10 +34,6 @@ public class Form {
     @JsonCreator
     public Form(@JsonProperty("questions") @NonNull List<Question> questions) {
         this.questions.addAll(questions);
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getName() {
@@ -76,7 +69,7 @@ public class Form {
         questions.forEach(question -> {
             question.getFields().forEach(field -> {
                 if (field.getAnswer() != null) {
-                    answers.put(field.getId(), field.getAnswer());
+                    answers.put(field.getKey(), field.getAnswer());
                 }
             });
         });
